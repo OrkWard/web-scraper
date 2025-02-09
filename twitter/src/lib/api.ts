@@ -1,6 +1,6 @@
 import { OptionsInit } from "got";
 import { prepareGql } from "./gql.js";
-import { get, instance } from "./request.js";
+import { authGet, instance, authInstance } from "./request.js";
 
 function filterOutDuplicateVideo(videoList: string[]) {
   const videoAttrList = videoList.map((v) => ({ id: v.match(/ext_tw_video\/(\d+)\//)![1], url: v }));
@@ -30,7 +30,8 @@ function filterOutDuplicateVideo(videoList: string[]) {
 }
 
 export async function prepareAPI(options?: OptionsInit) {
-  instance.defaults.options.merge(options);
+  authInstance.defaults.options.merge(options);
+  instance.defaults.options.merge({ agent: options?.agent });
   const getGraphql = await prepareGql();
   function getAPIUrl(apiName: string) {
     const gql = getGraphql(apiName);
@@ -40,7 +41,7 @@ export async function prepareAPI(options?: OptionsInit) {
 
   async function getUserMedia(userId: string, topCursor?: string) {
     const url = getAPIUrl("UserMedia");
-    const resp = await get(
+    const resp = await authGet(
       `${url}?${new URLSearchParams({
         variables: JSON.stringify({
           userId,
@@ -71,14 +72,14 @@ export async function prepareAPI(options?: OptionsInit) {
 
     return {
       cursor,
-      imgList: [...new Set(imgList)],
-      videoList: filterOutDuplicateVideo([...new Set(videoList)]),
+      imgs: [...new Set(imgList)],
+      videos: filterOutDuplicateVideo([...new Set(videoList)]),
     };
   }
 
   async function getUserId(userName: string) {
     const url = getAPIUrl("UserByScreenName");
-    const res = await get(
+    const res = await authGet(
       `${url}?${new URLSearchParams({
         variables: JSON.stringify({
           screen_name: userName,

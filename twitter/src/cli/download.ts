@@ -1,70 +1,65 @@
 import * as path from "path";
-import { pipeline } from "stream/promises";
-import { createWriteStream, writeFileSync } from "fs";
+import { writeFileSync } from "fs";
+import got from "got";
+import { proxyAgent } from "./index.js";
+import { writeFile } from "fs/promises";
 
-import { HttpsProxyAgent } from "https-proxy-agent";
-import fetch from "node-fetch";
-
-const proxyAgent = new HttpsProxyAgent("http://asus:7890");
-
-async function downloadRetry(url: string, retry: number = 3) {
-  for (let attempt = 0; attempt < retry; attempt++) {
-    try {
-      const response = await fetch(url, { agent: proxyAgent });
-      return response.body;
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  throw new Error("E> Download Error!");
-}
-
-export async function downloadAll(urls: string[], outputDir: string) {
-  let i = 0;
-  // handle sigint
+function handleSIGINT(callback?: () => void) {
   let aboutToExit = false;
   process.on("SIGINT", () => {
-    saveProgress();
+    callback?.();
     aboutToExit = true;
   });
 
+  return () => {
+    return aboutToExit;
+  };
+}
+
+async function sleep(time: number = 1000) {
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(void 0);
+    }, time);
+  });
+}
+
+export async function downloadAll(urls: string[], outputDir: string) {
+  /** download progress */
+  let i = 0;
   function saveProgress() {
     console.log("|> Saving Progress...");
     writeFileSync(path.join(outputDir, "download.int"), urls.slice(i).join("\n"));
     console.log("|> About to exit...");
   }
 
-  console.log("|> Starting download...");
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(void 0);
-    }, 3000);
-  });
+  const existing = handleSIGINT(saveProgress);
+
+  console.log(`|> Start download, remaining ${urls.length}`);
+  await sleep();
 
   for (; i < urls.length; i += 10) {
-    if (aboutToExit) {
+    if (existing()) {
       process.exit(0);
     }
     await Promise.all(
       urls.slice(i, i + 10).map(async (u) => {
-        const file = await downloadRetry(u);
-        const outputPath = path.join(outputDir, u.slice(u.lastIndexOf("/") + 1));
+        const file = await got(u, { agent: { https: proxyAgent } }).buffer();
         if (!file) {
           return;
         }
+        const p = new URL(u).pathname;
+        const outputPath = path.join(outputDir, p.slice(p.lastIndexOf("/") + 1));
 
-        return await pipeline(file, createWriteStream(outputPath.slice(0, outputPath.lastIndexOf("?"))));
+        return writeFile(outputPath, file);
       }),
     ).catch((e) => {
       console.error(e);
       saveProgress();
+      process.exit(0);
     });
 
-    await new Promise((resolve) => {
-      setTimeout(resolve, 500);
-    });
-
-    console.log(`  progress: ${i / urls.length}`);
+    console.log(`  progress: ${(i + urls.slice(i, i + 10).length) / urls.length}`);
+    await sleep(500);
   }
 }

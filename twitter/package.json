@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev": "tsc -w",
-    "download": "node ./dist/main.js"
+    "download": "node ./dist/cli/index.js"
   },
   "engines": {
     "node": "^20 || ^22"

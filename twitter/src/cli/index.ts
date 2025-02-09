@@ -1,9 +1,7 @@
-import fs from "fs/promises";
+import { mkdir, readFile, unlink, writeFile } from "fs/promises";
 import { existsSync } from "fs";
 import path from "path";
-import _ from "lodash";
 import "dotenv/config";
-import "node-fetch";
 
 import { prepareAPI } from "../lib/api.js";
 import { downloadAll } from "./download.js";
@@ -11,7 +9,7 @@ import assert from "assert";
 import { HttpsProxyAgent } from "https-proxy-agent";
 
 const proxyEnv = process.env.https_proxy || process.env.all_rpoxy;
-const proxyAgent = proxyEnv ? new HttpsProxyAgent(proxyEnv) : undefined;
+export const proxyAgent = proxyEnv ? new HttpsProxyAgent(proxyEnv) : undefined;
 
 // cli entry
 async function getUserAllMedia(user: string, options?: { videoOnly?: boolean; imageOnly?: boolean; limit?: number }) {
@@ -32,52 +30,54 @@ async function getUserAllMedia(user: string, options?: { videoOnly?: boolean; im
     followRedirect: true,
   });
 
-  let bottom: string | undefined = undefined;
-  let haveMore: boolean = true;
-  const imgList: string[] = [];
-  const videoList: string[] = [];
-
   const outputDir = path.join(process.cwd(), "output", user);
 
   const userId = await getUserId(user);
 
   if (!existsSync(outputDir)) {
-    await fs.mkdir(outputDir, { recursive: true });
+    await mkdir(outputDir, { recursive: true });
   }
 
-  if (existsSync(path.join(outputDir, "download.int"))) {
+  const interrupt = path.join(outputDir, "download.int");
+  if (existsSync(interrupt)) {
     console.log("|> Unfinished download task detected");
-    const urls = await fs.readFile(path.join(outputDir, "download.int"), "utf8");
-    downloadAll(urls.split("\n"), outputDir);
+    const urls = await readFile(interrupt, "utf8");
+    await downloadAll(urls.split("\n"), outputDir).then(() => {
+      unlink(interrupt);
+    });
     return;
   }
 
+  const imgs: string[] = [];
+  const videos: string[] = [];
+  let bottom: string | undefined = undefined;
+  let nonEmpty: boolean = true;
   do {
     const result = await getUserMedia(userId, bottom);
-    console.log(result);
     bottom = result.cursor;
-    haveMore = result.imgList.length > 0 || result.videoList.length > 0;
-    imgList.push(...result.imgList);
-    videoList.push(...result.videoList);
+    nonEmpty = result.imgs.length > 0 || result.videos.length > 0;
+    imgs.push(...result.imgs);
+    videos.push(...result.videos);
 
-    if (videoList.length + imgList.length > (options?.limit ?? Infinity)) {
+    if (videos.length + imgs.length > (options?.limit ?? Infinity)) {
       break;
     }
-  } while (haveMore);
+  } while (nonEmpty);
 
-  await fs.writeFile(path.join(outputDir, "all_image.json"), JSON.stringify(imgList, null, 2));
-  await fs.writeFile(path.join(outputDir, "all_video.json"), JSON.stringify(videoList, null, 2));
+  console.log("|> Save metadata...");
+  await writeFile(path.join(outputDir, "all_image.json"), JSON.stringify(imgs, null, 2));
+  await writeFile(path.join(outputDir, "all_video.json"), JSON.stringify(videos, null, 2));
 
+  const resources: string[] = [];
   if (!options?.videoOnly) {
-    await downloadAll(
-      imgList.map((m) => m + "?name=large"),
-      outputDir,
-    );
+    resources.push(...imgs.map((m) => m + "?name=large"));
   }
 
   if (!options?.imageOnly) {
-    await downloadAll(videoList, outputDir);
+    resources.push(...videos);
   }
+
+  await downloadAll(resources, outputDir);
 }
 
 function parseCli(argv: string[]) {
