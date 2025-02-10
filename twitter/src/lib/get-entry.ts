@@ -1,5 +1,5 @@
 import * as cheerio from "cheerio";
-import { get } from "./request.js";
+import { get, post } from "./request.js";
 
 /** parce main.xxx.js from x.com */
 async function prepareEntry() {
@@ -13,8 +13,10 @@ async function prepareEntry() {
     return undefined;
   }
   const migrate$ = cheerio.load(await get(migrate).text());
+  const form = migrate$("form[name=f]");
+  const home$ = cheerio.load(await post(form.attr("action") + "?" + form.serialize()).text());
   const srcList: string[] = [];
-  migrate$("script").each((i, script) => {
+  home$("script").each((i, script) => {
     srcList.push(script.attribs["src"] || "");
   });
   const main = srcList.find((src) => src.match(/main\..*\.js/));
@@ -26,5 +28,6 @@ async function prepareEntry() {
 
 /** fetch main.xxx.js */
 export async function getMain() {
-  return await get((await prepareEntry()) || "https://abs.twimg.com/responsive-web/client-web/main.855db29a.js").text();
+  // return await get((await prepareEntry()) || "https://abs.twimg.com/responsive-web/client-web/main.855db29a.js").text();
+  return await get("https://abs.twimg.com/responsive-web/client-web/main.855db29a.js").text();
 }
