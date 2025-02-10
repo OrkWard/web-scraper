@@ -1,9 +1,11 @@
-import { OptionsInit } from "got";
+import { Agents, Headers } from "got";
+import _ from "lodash";
+import assert from "node:assert";
+
 import { prepareGql } from "./gql.js";
 import { authGet, instance, authInstance } from "./request.js";
-import _ from "lodash";
-import assert from "assert";
 import { TweetEntry } from "./type.js";
+import { HttpsProxyAgent } from "https-proxy-agent";
 
 function filterOutDuplicateVideo(videoList: string[]) {
   const videoAttrList = videoList.map((v) => ({ id: v.match(/ext_tw_video\/(\d+)\//)![1], url: v }));
@@ -32,9 +34,11 @@ function filterOutDuplicateVideo(videoList: string[]) {
   return filteredVideoList;
 }
 
-export async function prepareAPI(options?: OptionsInit) {
-  authInstance.defaults.options.merge(options);
-  instance.defaults.options.merge({ agent: options?.agent });
+const proxyEnv = process.env.https_proxy || process.env.all_rpoxy;
+const proxyAgent = proxyEnv ? new HttpsProxyAgent(proxyEnv) : undefined;
+export async function prepareAPI(headers?: Headers, agent: Agents = { https: proxyAgent }) {
+  authInstance.defaults.options.merge({ agent, headers });
+  instance.defaults.options.merge({ agent });
 
   const getGraphql = await prepareGql();
   function getAPIPathname(apiName: string) {
@@ -101,13 +105,13 @@ export async function prepareAPI(options?: OptionsInit) {
     return id;
   }
 
-  async function getUserTweets(userId: string): Promise<TweetEntry[]> {
+  async function getUserTweets(userId: string, count = 20): Promise<TweetEntry[]> {
     const path = getAPIPathname("UserTweets");
     const res = await authGet(
       `${path}?${new URLSearchParams({
         variables: JSON.stringify({
           userId,
-          count: 20,
+          count,
           includePromotedContent: true,
           withQuickPromoteEligibilityTweetFields: true,
           withVoice: true,

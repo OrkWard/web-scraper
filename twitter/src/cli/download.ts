@@ -1,8 +1,11 @@
 import * as path from "path";
 import { writeFileSync } from "fs";
 import got from "got";
-import { proxyAgent } from "./index.js";
 import { writeFile } from "fs/promises";
+import { HttpsProxyAgent } from "https-proxy-agent";
+
+const proxyEnv = process.env.https_proxy || process.env.all_rpoxy;
+const proxyAgent = proxyEnv ? new HttpsProxyAgent(proxyEnv) : undefined;
 
 function handleSIGINT(callback?: () => void) {
   let aboutToExit = false;

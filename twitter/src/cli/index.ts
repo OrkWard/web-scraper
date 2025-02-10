@@ -6,10 +6,6 @@ import "dotenv/config";
 import { prepareAPI } from "../lib/api.js";
 import { downloadAll } from "./download.js";
 import assert from "assert";
-import { HttpsProxyAgent } from "https-proxy-agent";
-
-const proxyEnv = process.env.https_proxy || process.env.all_rpoxy;
-export const proxyAgent = proxyEnv ? new HttpsProxyAgent(proxyEnv) : undefined;
 
 // cli entry
 async function getUserAllMedia(user: string, options?: { videoOnly?: boolean; imageOnly?: boolean; limit?: number }) {
@@ -18,16 +14,12 @@ async function getUserAllMedia(user: string, options?: { videoOnly?: boolean; im
   assert(process.env.Authorization);
 
   const { getUserId, getUserMedia } = await prepareAPI({
-    agent: { https: proxyAgent },
-    headers: {
-      cookie: process.env.cookie,
-      referer: `https://x.com/${user}/media`,
-      "user-agent":
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
-      "x-csrf-token": process.env["x-csrf-token"],
-      Authorization: process.env.Authorization,
-    },
-    followRedirect: true,
+    cookie: process.env.cookie,
+    referer: `https://x.com/${user}/media`,
+    "user-agent":
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+    "x-csrf-token": process.env["x-csrf-token"],
+    Authorization: process.env.Authorization,
   });
 
   const outputDir = path.join(process.cwd(), "output", user);
