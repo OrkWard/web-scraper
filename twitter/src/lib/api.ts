@@ -3,8 +3,8 @@ import _ from "lodash";
 import assert from "node:assert";
 
 import { prepareGql } from "./gql.js";
-import { authGet, instance, authInstance } from "./request.js";
-import { TweetEntry } from "./type.js";
+import { authGet, instance, authInstance, get } from "./request.js";
+import { Media, TweetEntry } from "./type.js";
 import { HttpsProxyAgent } from "https-proxy-agent";
 
 function filterOutDuplicateVideo(videoList: string[]) {
@@ -131,4 +131,19 @@ export async function prepareAPI(headers?: Headers, agent: Agents = { https: pro
   }
 
   return { getUserMedia, getUserId, getUserTweets };
+}
+
+export function getTweetMedia(media: Media) {
+  let url: string = media.media_url_https;
+  if (media.type === "photo") {
+    //
+  } else if (media.type === "video") {
+    url = media.video_info?.variants.filter((v) => v.content_type === "video/mp4").at(-1)?.url!;
+  }
+
+  return {
+    type: media.type,
+    url,
+    buffer: get(url).buffer(),
+  };
 }

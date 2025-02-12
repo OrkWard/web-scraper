@@ -1,29 +1,37 @@
 export type TweetEntry = {
   entryId: string;
   sortIndex: string;
-  content: TweetContent;
+  content:
+    | {
+        entryType: "TimelineTimelineItem";
+        itemContent: TimelineTweetItem;
+      }
+    | {
+        entryType: "TimelineTimelineModule";
+        items: {
+          entryId: string;
+          item: {
+            itemContent: TimelineTweetItem;
+          };
+        }[];
+      };
 };
 
-export interface TweetContent {
-  entryType: "TimelineTimelineItem";
-  itemContent: ItemContent;
-}
-
-export interface ItemContent {
+export interface TimelineTweetItem {
   itemType: "TimelineTweet";
   tweet_results: {
-    result: TweetResult;
+    result: TimelineTweetResult;
   };
 }
 
-export interface TweetResult {
+export interface TimelineTweetResult {
   rest_id: string;
   source: string;
   core: {
     user_results: UserResult;
   }; // user info
   views: Views;
-  legacy: TweetLegacy;
+  legacy: TimelineTweetLegacy;
 }
 
 export interface UserResult {
@@ -86,23 +94,23 @@ export interface URLElement {
   url: string;
 }
 
-export interface TweetLegacy {
+export interface TimelineTweetLegacy {
   full_text: string;
   created_at?: string;
-  bookmark_count?: number;
+  bookmark_count: number;
   entities: TweetEntities;
-  favorite_count?: number;
+  favorite_count: number;
   is_quote_status?: boolean;
-  quote_count?: number;
-  reply_count?: number;
-  retweet_count?: number;
-  user_id_str?: string;
-  id_str?: string;
-  retweeted_status_result?: { result: TweetResult };
+  quote_count: number;
+  reply_count: number;
+  retweet_count: number;
+  user_id_str: string;
+  id_str: string;
+  retweeted_status_result?: { result: TimelineTweetResult };
 }
 
 export interface TweetEntities {
-  hashtags: Hashtag[];
+  hashtags?: Hashtag[];
   symbols?: any[];
   urls?: URLElement[];
   user_mentions?: UserMention[];
@@ -117,8 +125,16 @@ export interface Media {
   display_url?: string;
   expanded_url?: string;
   id_str?: string;
-  media_url_https?: string;
-  type?: string;
+  media_url_https: string;
+  type: "photo" | "video";
+  video_info?: {
+    duration_millis: number;
+    aspect_ratio: [number, number];
+    variants: {
+      content_type: "video/mp4";
+      url: string;
+    }[];
+  };
   url?: string;
   sizes?: Sizes;
   original_info?: OriginalInfo;
