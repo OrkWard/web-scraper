@@ -1,25 +1,20 @@
 import { mkdir, readFile, unlink, writeFile } from "fs/promises";
 import { existsSync } from "fs";
 import path from "path";
-import "dotenv/config";
 
 import { prepareAPI } from "../lib/api.js";
 import { downloadAll } from "./download.js";
-import assert from "assert";
+import C from "./config.json" with { type: "json" };
 
 // cli entry
 async function getUserAllMedia(user: string, options?: { videoOnly?: boolean; imageOnly?: boolean; limit?: number }) {
-  assert(process.env.cookie);
-  assert(process.env["x-csrf-token"]);
-  assert(process.env.Authorization);
-
   const { getUserId, getUserMedia } = await prepareAPI({
-    cookie: process.env.cookie,
+    cookie: C.cookie,
     referer: `https://x.com/${user}/media`,
     "user-agent":
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
-    "x-csrf-token": process.env["x-csrf-token"],
-    Authorization: process.env.Authorization,
+    "x-csrf-token": C["x-csrf-token"],
+    Authorization: C.Authorization,
   });
 
   const outputDir = path.join(process.cwd(), "output", user);

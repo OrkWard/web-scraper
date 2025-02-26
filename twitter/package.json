@@ -10,6 +10,7 @@
     "typescript": "^5.6.2"
   },
   "scripts": {
+    "build": "tsc",
     "dev": "tsc -w",
     "download": "node ./dist/cli/index.js"
   },
@@ -21,7 +22,6 @@
     "acorn": "^8.12.1",
     "acorn-walk": "^8.3.4",
     "cheerio": "^1.0.0",
-    "dotenv": "^16.4.7",
     "got": "^14.4.5",
     "https-proxy-agent": "^7.0.5"
   }
