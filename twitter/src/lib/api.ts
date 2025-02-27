@@ -1,6 +1,6 @@
 import { Agents, Headers } from "got";
-import _ from "lodash";
 import assert from "node:assert";
+import * as _ from "es-toolkit/compat";
 
 import { prepareGql } from "./gql.js";
 import { authGet, instance, authInstance, get } from "./request.js";

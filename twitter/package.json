@@ -5,7 +5,6 @@
   "main": "./dist/lib/index.js",
   "bin": "./dist/cli/index.js",
   "devDependencies": {
-    "@types/lodash": "^4.17.7",
     "@types/node": "^20.16.5",
     "typescript": "^5.6.2"
   },
@@ -21,6 +20,7 @@
     "acorn": "^8.12.1",
     "acorn-walk": "^8.3.4",
     "cheerio": "^1.0.0",
+    "es-toolkit": "^1.32.0",
     "got": "^14.4.5",
     "https-proxy-agent": "^7.0.5"
   }
