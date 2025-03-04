@@ -17,6 +17,9 @@ importers:
       cheerio:
         specifier: ^1.0.0
         version: 1.0.0
+      es-toolkit:
+        specifier: ^1.32.0
+        version: 1.32.0
       got:
         specifier: ^14.4.5
         version: 14.4.5
@@ -24,9 +27,6 @@ importers:
         specifier: ^7.0.5
         version: 7.0.5
     devDependencies:
-      '@types/lodash':
-        specifier: ^4.17.7
-        version: 4.17.7
       '@types/node':
         specifier: ^20.16.5
         version: 20.16.5
@@ -49,9 +49,6 @@ packages:
 
   '@types/http-cache-semantics@4.0.4':
     resolution: {integrity: sha512-1m0bIFVc7eJWyve9S0RnuRgcQqF/Xd5QsUZAZeQFr1Q3/p9JWoQQEqmVy+DPTNpGXwhgIetAoYF8JSc33q29QA==}
-
-  '@types/lodash@4.17.7':
-    resolution: {integrity: sha512-8wTvZawATi/lsmNu10/j2hk1KEP0IvjubqPE3cu1Xz7xfXXt5oCq3SNUz4fMIP4XGF9Ky+Ue2tBA3hcS7LSBlA==}
 
   '@types/node@20.16.5':
     resolution: {integrity: sha512-VwYCweNo3ERajwy0IUlqqcyZ8/A7Zwa9ZP3MnENWcB11AejO+tLy3pu850goUW2FC/IJMdZUfKpX/yxL1gymCA==}
@@ -130,6 +127,9 @@ packages:
   entities@4.5.0:
     resolution: {integrity: sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==}
     engines: {node: '>=0.12'}
+
+  es-toolkit@1.32.0:
+    resolution: {integrity: sha512-ZfSfHP1l6ubgW/B/FRtqb9bYdMvI6jizbOSfbwwJNcOQ1QE6TFsC3jpQkZ900uUPSR3t3SU5Ds7UWKnYz+uP8Q==}
 
   form-data-encoder@4.0.2:
     resolution: {integrity: sha512-KQVhvhK8ZkWzxKxOr56CPulAhH3dobtuQ4+hNQ+HekH/Wp5gSOafqRAeTphQUJAIk0GBvHZgJ2ZGRWd5kphMuw==}
@@ -256,8 +256,6 @@ snapshots:
 
   '@types/http-cache-semantics@4.0.4': {}
 
-  '@types/lodash@4.17.7': {}
-
   '@types/node@20.16.5':
     dependencies:
       undici-types: 6.19.8
@@ -355,6 +353,8 @@ snapshots:
       whatwg-encoding: 3.1.1
 
   entities@4.5.0: {}
+
+  es-toolkit@1.32.0: {}
 
   form-data-encoder@4.0.2: {}
 
