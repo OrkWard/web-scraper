@@ -1,5 +1,6 @@
 import * as cheerio from "cheerio";
 import { get, post } from "./request.js";
+import { NetworkError } from "./exception.js";
 
 /** parce main.xxx.js from x.com */
 async function prepareEntry() {
@@ -29,5 +30,10 @@ async function prepareEntry() {
 /** fetch main.xxx.js */
 export async function getMain() {
   // return await get((await prepareEntry()) || "https://abs.twimg.com/responsive-web/client-web/main.855db29a.js").text();
-  return await get("https://abs.twimg.com/responsive-web/client-web/main.855db29a.js").text();
+  const url = "https://abs.twimg.com/responsive-web/client-web/main.855db29a.js";
+  try {
+    return await get("https://abs.twimg.com/responsive-web/client-web/main.855db29a.js").text();
+  } catch (err) {
+    throw new NetworkError(url, err as Error);
+  }
 }
