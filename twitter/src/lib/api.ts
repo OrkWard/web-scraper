@@ -1,39 +1,13 @@
 import { Agents, Headers } from "got";
 import assert from "node:assert";
 import * as _ from "es-toolkit/compat";
-
-import { prepareGql } from "./gql.js";
-import { authGet, instance, authInstance, get } from "./request.js";
-import { Media, TweetEntry } from "./type.js";
 import { HttpsProxyAgent } from "https-proxy-agent";
 import { NetworkError, ParseError } from "./exception.js";
 
-function filterOutDuplicateVideo(videoList: string[]) {
-  const videoAttrList = videoList.map((v) => ({ id: v.match(/ext_tw_video\/(\d+)\//)![1], url: v }));
-  const pickHighest = (vList: string[]) => {
-    const resolutionList = vList.map((v) => {
-      const vh = v.match(/\/(\d+)x(\d+)\//);
-      // ignore m3u8
-      if (!vh) return 0;
-      const [_, w, h] = vh;
-      return Number(w) * Number(h);
-    });
-
-    let highest = 0;
-    for (let i = 1; i < vList.length; i += 1) {
-      if (resolutionList[i] > resolutionList[0]) {
-        highest = i;
-      }
-    }
-    return vList[highest];
-  };
-
-  const filteredVideoList = Object.values(Object.groupBy(videoAttrList, ({ id }) => id)).map((sameVideos) =>
-    pickHighest(sameVideos!.map((v) => v.url)),
-  );
-
-  return filteredVideoList;
-}
+import { authGet, instance, authInstance, get } from "./request.js";
+import { prepareGql } from "./gql.js";
+import { Media, TweetEntry } from "./type.js";
+import { filterOutDuplicateVideo } from "./utils.js";
 
 const proxyEnv = process.env.https_proxy || process.env.all_rpoxy;
 const proxyAgent = proxyEnv ? new HttpsProxyAgent(proxyEnv) : undefined;

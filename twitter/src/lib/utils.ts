@@ -32,3 +32,30 @@ export function parseJSONFromString(json: string, index: number) {
   }
   return null;
 }
+
+export function filterOutDuplicateVideo(videoList: string[]) {
+  const videoAttrList = videoList.map((v) => ({ id: v.match(/ext_tw_video\/(\d+)\//)![1], url: v }));
+  const pickHighest = (vList: string[]) => {
+    const resolutionList = vList.map((v) => {
+      const vh = v.match(/\/(\d+)x(\d+)\//);
+      // ignore m3u8
+      if (!vh) return 0;
+      const [_, w, h] = vh;
+      return Number(w) * Number(h);
+    });
+
+    let highest = 0;
+    for (let i = 1; i < vList.length; i += 1) {
+      if (resolutionList[i] > resolutionList[0]) {
+        highest = i;
+      }
+    }
+    return vList[highest];
+  };
+
+  const filteredVideoList = Object.values(Object.groupBy(videoAttrList, ({ id }) => id)).map((sameVideos) =>
+    pickHighest(sameVideos!.map((v) => v.url)),
+  );
+
+  return filteredVideoList;
+}
