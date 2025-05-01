@@ -1,9 +1,9 @@
 import { TweetEntry } from "twitter-scraper";
-import { getUserTweets } from "./api.js";
-import { UserIdStore } from "./cache.js";
-import { C } from "./config.js";
-import { getTweetContent } from "./util.js";
 import { createClient } from "redis";
+
+import { getUserTweets } from "./api.js";
+import { C } from "./config.js";
+import { getTweetContent, UserIdStore } from "./util.js";
 import { safeJsonParse } from "../../util.js";
 
 const userIdStore = new UserIdStore();
