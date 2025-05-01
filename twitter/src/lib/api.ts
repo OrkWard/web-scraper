@@ -119,7 +119,7 @@ export async function prepareAPI(headers?: Headers, agent: Agents = { https: pro
     const path = getAPIPathname("UserTweets");
     let res: any;
     try {
-      const res = await authGet(
+      res = await authGet(
         `${path}?${new URLSearchParams({
           variables: JSON.stringify({
             userId,
