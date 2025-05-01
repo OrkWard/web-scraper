@@ -1,6 +1,6 @@
 import * as cheerio from "cheerio";
-import { get, post } from "./request.js";
-import { NetworkError } from "./exception.js";
+import { get, post } from "../util/request.js";
+import { NetworkError } from "../util/exception.js";
 
 /** parce main.xxx.js from x.com */
 async function prepareEntry() {

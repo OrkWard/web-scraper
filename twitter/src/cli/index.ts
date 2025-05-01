@@ -2,7 +2,7 @@ import { mkdir, readFile, unlink, writeFile } from "fs/promises";
 import { existsSync } from "fs";
 import path from "path";
 
-import { prepareAPI } from "../lib/api.js";
+import { prepareAPI } from "../lib/core/api.js";
 import { downloadAll } from "./download.js";
 import C from "./config.json" with { type: "json" };
 

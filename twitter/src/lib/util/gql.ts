@@ -1,6 +1,6 @@
 import { parse } from "acorn";
 import { simple } from "acorn-walk";
-import { getMain } from "./get-entry.js";
+import { getMain } from "../core/get-entry.js";
 
 interface GQL {
   queryId: string;
