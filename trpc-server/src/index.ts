@@ -1,3 +1,5 @@
+import "./sentry.js";
+import * as Sentry from "@sentry/node";
 import { createHTTPServer } from "@trpc/server/adapters/standalone";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
@@ -21,6 +23,9 @@ const Router = trpc.router({
 
 createHTTPServer({
   router: Router,
+  onError(e) {
+    Sentry.captureException(e);
+  },
 }).listen(3000);
 logger.info("tRPC server start");
 

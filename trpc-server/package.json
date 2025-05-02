@@ -16,6 +16,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@sentry/node": "^9.15.0",
     "@trpc/server": "^11.1.2",
     "got": "^14.4.7",
     "html-entities": "^2.6.0",
