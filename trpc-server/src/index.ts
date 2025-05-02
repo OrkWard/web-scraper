@@ -9,7 +9,7 @@ import { getUserTweet } from "./controller/twitter/index.js";
 import { trpc } from "./trpc.js";
 import { logger } from "./util.js";
 
-const Router = trpc.router({
+const router = trpc.router({
   twitter: trpc.procedure.input(z.object({ username: z.string() })).query(async ({ input }) => {
     try {
       return getUserTweet(input.username);
@@ -22,11 +22,11 @@ const Router = trpc.router({
 });
 
 createHTTPServer({
-  router: Router,
+  router: router,
   onError(e) {
     Sentry.captureException(e);
   },
 }).listen(3000);
 logger.info("tRPC server start");
 
-export type Router = typeof Router;
+export type AppRouter = typeof router;

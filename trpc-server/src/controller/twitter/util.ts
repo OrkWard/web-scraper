@@ -1,4 +1,3 @@
-import got from "got";
 import { decode } from "html-entities";
 import { Media, TimelineTweetLegacy } from "twitter-scraper";
 import { getUserId } from "./api.js";
@@ -14,7 +13,6 @@ export function getTweetMedia(media: Media) {
   return {
     type: media.type,
     url,
-    buffer: got(url).buffer(),
   };
 }
 
