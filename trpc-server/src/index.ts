@@ -21,10 +21,7 @@ const Router = trpc.router({
 
 createHTTPServer({
   router: Router,
-  createContext() {
-    logger.info("tRPC server start");
-    return {};
-  },
 }).listen(3000);
+logger.info("tRPC server start");
 
 export type Router = typeof Router;
