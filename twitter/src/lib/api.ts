@@ -4,9 +4,9 @@ import * as _ from "es-toolkit/compat";
 import { HttpsProxyAgent } from "https-proxy-agent";
 import { NetworkError, ParseError } from "./exception.js";
 
-import { authGet, instance, authInstance, get } from "./request.js";
+import { authGet, instance, authInstance } from "./request.js";
 import { prepareGql } from "./gql.js";
-import { Media, TweetEntry } from "./type.js";
+import { TweetEntry } from "./type.js";
 import { filterOutDuplicateVideo } from "./utils.js";
 
 const proxyEnv = process.env.https_proxy || process.env.all_rpoxy;
@@ -124,19 +124,4 @@ export async function prepareAPI(headers?: Headers, agent: Agents = { https: pro
   }
 
   return { getUserMedia, getUserId, getUserTweets };
-}
-
-export function getTweetMedia(media: Media) {
-  let url: string = media.media_url_https;
-  if (media.type === "photo") {
-    //
-  } else if (media.type === "video") {
-    url = media.video_info?.variants.filter((v) => v.content_type === "video/mp4").at(-1)?.url!;
-  }
-
-  return {
-    type: media.type,
-    url,
-    buffer: get(url).buffer(),
-  };
 }

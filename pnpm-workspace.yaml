@@ -2,3 +2,4 @@ packages:
   - "twitter"
   - "youtube"
   - "pixiv"
+  - "trpc-server"
