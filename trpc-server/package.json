@@ -11,12 +11,15 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^20.16.5",
     "typescript": "^5.8.3"
   },
   "dependencies": {
     "@trpc/server": "^11.1.2",
     "got": "^14.4.7",
     "html-entities": "^2.6.0",
+    "pino": "^9.6.0",
+    "pino-pretty": "^13.0.0",
     "redis": "^5.0.0",
     "twitter-scraper": "workspace:*",
     "zod": "^3.24.3"

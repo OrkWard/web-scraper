@@ -1,3 +1,5 @@
+import { pino } from "pino";
+
 export function safeJsonParse<T = unknown>(jsonString: string | null | undefined): T | null {
   if (jsonString === null || jsonString === undefined) {
     return null;
@@ -11,3 +13,12 @@ export function safeJsonParse<T = unknown>(jsonString: string | null | undefined
     return null; // Indicate failure
   }
 }
+
+export const logger = pino({
+  transport: {
+    target: "pino-pretty",
+    options: {
+      colorize: true,
+    },
+  },
+});
