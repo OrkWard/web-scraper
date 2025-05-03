@@ -5,8 +5,8 @@
   "main": "./dist/index.js",
   "type": "module",
   "scripts": {
-    "dev": "tsc --watch",
-    "build": "tsc",
+    "dev": "tsc --build --watch",
+    "build": "tsc --build",
     "start": "node ./dist/index.js"
   },
   "keywords": [],
