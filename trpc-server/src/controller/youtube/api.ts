@@ -22,6 +22,8 @@ export async function fetchChannelId(channelName: string): Promise<string | null
       forUsername: channelName,
     });
 
+    logger.info(response);
+
     if (response.data.items && response.data.items.length > 0) {
       return response.data.items[0].id || null;
     } else {

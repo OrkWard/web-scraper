@@ -24,7 +24,7 @@ async function getChannelId(channelName: string): Promise<string> {
   return channelId;
 }
 
-export async function getYoutubeChannelVideos(channelName: string): Promise<YouTubeVideo[]> {
+export async function getYoutubeChannelVideosByName(channelName: string): Promise<YouTubeVideo[]> {
   const cachedVideos = await redis.get(`${CHANNEL_KEY}:${channelName}`);
   if (cachedVideos) {
     const parsedVideos = JSON.parse(cachedVideos) as YouTubeVideo[];
@@ -37,6 +37,22 @@ export async function getYoutubeChannelVideos(channelName: string): Promise<YouT
 
   await redis.setEx(`${CHANNEL_KEY}:${channelName}`, CHANNEL_RETRY_TIME, JSON.stringify(videos));
   logger.info(`Youtube videos for channel ${channelName} saved to cache`);
+
+  return videos;
+}
+
+export async function getYoutubeChannelVideosById(channelId: string): Promise<YouTubeVideo[]> {
+  const cachedVideos = await redis.get(`${CHANNEL_KEY}:${channelId}`);
+  if (cachedVideos) {
+    const parsedVideos = JSON.parse(cachedVideos) as YouTubeVideo[];
+    logger.info(`Youtube cache hit for channel ${channelId}`);
+    return parsedVideos;
+  }
+
+  const videos = await fetchChannelVideos(channelId);
+
+  await redis.setEx(`${CHANNEL_KEY}:${channelId}`, CHANNEL_RETRY_TIME, JSON.stringify(videos));
+  logger.info(`Youtube videos for channel ${channelId} saved to cache`);
 
   return videos;
 }
