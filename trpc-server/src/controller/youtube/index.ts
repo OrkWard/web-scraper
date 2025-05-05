@@ -4,7 +4,7 @@ import { fetchChannelId, fetchChannelVideos, type YouTubeVideo } from "./api.js"
 
 const CHANNEL_KEY = "YOUTUBE_CHANNEL_VIDEO";
 const CHANNEL_ID_KEY = "YOUTUBE_CHANNEL_ID";
-const CHANNEL_RETRY_TIME = 5 * 60; // seconds
+const CHANNEL_RETRY_TIME = 20 * 60; // seconds
 const CHANNEL_ID_RETRY_TIME = 24 * 60 * 60;
 
 async function getChannelId(channelName: string): Promise<string> {
