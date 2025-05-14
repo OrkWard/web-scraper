@@ -32,7 +32,6 @@ export async function getUserTweet(username: string) {
   let entries: TweetEntry[];
   const cachedEntries = await redis.get(`${REDIS_KEY}:${username}`);
   if (cachedEntries) {
-    logger.info("Tweet cache hit");
     entries = JSON.parse(cachedEntries) as TweetEntry[];
   } else {
     const id = await userIdStore.get(username);

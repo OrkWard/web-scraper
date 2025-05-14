@@ -28,7 +28,6 @@ export async function getYoutubeChannelVideosByName(channelName: string): Promis
   const cachedVideos = await redis.get(`${CHANNEL_KEY}:${channelName}`);
   if (cachedVideos) {
     const parsedVideos = JSON.parse(cachedVideos) as YouTubeVideo[];
-    logger.info(`Youtube cache hit for channel ${channelName}`);
     return parsedVideos;
   }
 
@@ -45,7 +44,6 @@ export async function getYoutubeChannelVideosById(channelId: string): Promise<Yo
   const cachedVideos = await redis.get(`${CHANNEL_KEY}:${channelId}`);
   if (cachedVideos) {
     const parsedVideos = JSON.parse(cachedVideos) as YouTubeVideo[];
-    logger.info(`Youtube cache hit for channel ${channelId}`);
     return parsedVideos;
   }
 
