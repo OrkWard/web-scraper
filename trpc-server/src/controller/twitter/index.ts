@@ -10,22 +10,26 @@ const REDIS_KEY = "TWITTER_USER_TWEET";
 const RETRY_TIME = 5 * 60; // seconds
 
 function parseTweetEntry(entries: TweetEntry[]) {
-  const result = entries
-    .filter((e) => ["TimelineTimelineItem", "TimelineTimelineModule"].includes(e.content.entryType))
-    .map((e) =>
-      e.content.entryType === "TimelineTimelineItem"
-        ? e.content.itemContent
-        : e.content.items.map((i) => i.item.itemContent).reverse(),
-    )
-    .flat()
-    .filter((t) => t.itemType === "TimelineTweet")
-    .map((t) => t.tweet_results.result.legacy)
-    .map(getTweetContent);
+  try {
+    const result = entries
+      .filter((e) => ["TimelineTimelineItem", "TimelineTimelineModule"].includes(e.content.entryType))
+      .map((e) =>
+        e.content.entryType === "TimelineTimelineItem"
+          ? e.content.itemContent
+          : e.content.items.map((i) => i.item.itemContent).reverse(),
+      )
+      .flat()
+      .filter((t) => t.itemType === "TimelineTweet")
+      .map((t) => t.tweet_results.result.legacy)
+      .map(getTweetContent);
 
-  if (!Array.isArray(result) || result.some((t) => typeof t.tweetId !== "string" || typeof t.text !== "string")) {
-    throw new Error(`Entries don't have expected structure, raw: ${JSON.stringify(result)}`);
+    if (result.some((t) => typeof t.tweetId !== "string" || typeof t.text !== "string")) {
+      throw new Error();
+    }
+    return result;
+  } catch {
+    throw new Error(`Entries don't have expected structure, raw: ${JSON.stringify(entries)}`);
   }
-  return result;
 }
 
 export async function getUserTweet(username: string) {

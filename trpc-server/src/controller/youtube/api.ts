@@ -35,18 +35,15 @@ export async function fetchChannelId(channelName: string): Promise<string | null
 
 export async function fetchChannelVideos(channelId: string): Promise<YouTubeVideo[]> {
   try {
-    const response = await youtube.search.list({
-      channelId: channelId,
-      part: ["snippet"],
-      order: "date",
-      type: ["video"],
-      maxResults: 25,
-    });
+    const channels = await youtube.channels.list({ id: [channelId], part: ["snippet", "contentDetails"] });
+    const playlistId = channels.data.items?.[0].contentDetails?.relatedPlaylists?.uploads;
 
-    if (response.data.items) {
-      return response.data.items.map((item) => {
+    const items = await youtube.playlistItems.list({ playlistId, part: ["snippet"], maxResults: 50 });
+
+    if (items.data.items) {
+      return items.data.items.map((item) => {
         return {
-          videoId: item.id?.videoId || "unknown",
+          videoId: item.snippet?.resourceId?.videoId || "unknown",
           title: item.snippet?.title || "unknown",
           description: item.snippet?.description || "unknown",
           thumbnailUrl: item.snippet?.thumbnails?.high?.url || item.snippet?.thumbnails?.default?.url || "unknown",
