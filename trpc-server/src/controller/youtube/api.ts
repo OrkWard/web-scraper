@@ -40,19 +40,23 @@ export async function fetchChannelVideos(channelId: string): Promise<YouTubeVide
 
     const items = await youtube.playlistItems.list({ playlistId, part: ["snippet"], maxResults: 50 });
 
-    if (items.data.items) {
-      return items.data.items.map((item) => {
-        return {
-          videoId: item.snippet?.resourceId?.videoId || "unknown",
-          title: item.snippet?.title || "unknown",
-          description: item.snippet?.description || "unknown",
-          thumbnailUrl: item.snippet?.thumbnails?.high?.url || item.snippet?.thumbnails?.default?.url || "unknown",
-          publishedAt: item.snippet?.publishedAt || "unknown",
-        };
-      });
-    } else {
-      return [];
+    if (items.data.items?.some((v) => v.snippet?.channelId !== channelId)) {
+      logger.error(`Malformed video detect. Full response: ${JSON.stringify(items.data)}`);
     }
+
+    return (
+      items.data.items
+        ?.filter((v) => v.snippet?.channelId === channelId)
+        ?.map((item) => {
+          return {
+            videoId: item.snippet?.resourceId?.videoId || "unknown",
+            title: item.snippet?.title || "unknown",
+            description: item.snippet?.description || "unknown",
+            thumbnailUrl: item.snippet?.thumbnails?.high?.url || item.snippet?.thumbnails?.default?.url || "unknown",
+            publishedAt: item.snippet?.publishedAt || "unknown",
+          };
+        }) || []
+    );
   } catch (error) {
     logger.error(`Error fetching YouTube videos for channel ${channelId}: ${error}`);
     throw error;
