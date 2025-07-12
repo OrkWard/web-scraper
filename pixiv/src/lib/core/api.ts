@@ -63,7 +63,6 @@ export async function fetchNovel(
   req: NovelRequest,
   headers: Record<string, string>,
 ): Promise<NovelResponse> {
-  const got = (await import("got")).default;
   const res = await got(`https://www.pixiv.net/ajax/novel/${req.novel}?lang=zh`, {
     headers,
     responseType: "json",
