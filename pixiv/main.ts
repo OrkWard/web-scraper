@@ -1,6 +1,6 @@
-import { fetchBookmark, fetchNovel } from "./api.ts";
 import * as fs from "@std/fs";
 import * as path from "@std/path";
+import { fetchBookmark, fetchNovel } from "./api.ts";
 
 if (import.meta.main) {
   // params
@@ -27,13 +27,13 @@ if (import.meta.main) {
         const res = await fetchNovel({ novel: n.id });
         await Deno.writeTextFile(
           path.join(outputPath, res.body.title + ".txt"),
-          res.body.content
+          res.body.content,
         );
-      })
+      }),
     );
 
     console.log(
-      `|> Progress: ${offset + res.body.works.length}/${res.body.total}`
+      `|> Progress: ${offset + res.body.works.length}/${res.body.total}`,
     );
 
     if (res.body.works.length < limit) {

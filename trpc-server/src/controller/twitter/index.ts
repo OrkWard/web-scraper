@@ -1,9 +1,9 @@
 import { TweetEntry } from "twitter-scraper";
 
-import { getUserTweets } from "./api.js";
-import { getTweetContent, UserIdStore } from "./util.js";
 import { logger } from "../../logger.js";
 import { redis } from "../../redis.js";
+import { getUserTweets } from "./api.js";
+import { getTweetContent, UserIdStore } from "./util.js";
 
 const userIdStore = new UserIdStore();
 const REDIS_KEY = "TWITTER_USER_TWEET";
@@ -12,11 +12,13 @@ const RETRY_TIME = 5 * 60; // seconds
 function parseTweetEntry(entries: TweetEntry[]) {
   try {
     const result = entries
-      .filter((e) => ["TimelineTimelineItem", "TimelineTimelineModule"].includes(e.content.entryType))
+      .filter((e) =>
+        ["TimelineTimelineItem", "TimelineTimelineModule"].includes(e.content.entryType)
+      )
       .map((e) =>
         e.content.entryType === "TimelineTimelineItem"
           ? e.content.itemContent
-          : e.content.items.map((i) => i.item.itemContent).reverse(),
+          : e.content.items.map((i) => i.item.itemContent).reverse()
       )
       .flat()
       .filter((t) => t.itemType === "TimelineTweet")

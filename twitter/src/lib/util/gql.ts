@@ -23,11 +23,11 @@ export async function prepareGql() {
         if (
           node.properties.some(
             (p) =>
-              p.type === "Property" &&
-              p.key.type === "Identifier" &&
-              p.key.name === "operationName" &&
-              p.value.type === "Literal" &&
-              p.value.value === funcName,
+              p.type === "Property"
+              && p.key.type === "Identifier"
+              && p.key.name === "operationName"
+              && p.value.type === "Literal"
+              && p.value.value === funcName,
           )
         ) {
           const queryId = node.properties.find(
@@ -35,11 +35,12 @@ export async function prepareGql() {
           );
 
           if (
-            queryId?.type === "Property" &&
-            queryId.value.type === "Literal" &&
-            typeof queryId.value.value === "string"
-          )
+            queryId?.type === "Property"
+            && queryId.value.type === "Literal"
+            && typeof queryId.value.value === "string"
+          ) {
             gql = { queryId: queryId.value.value };
+          }
         }
       },
     });

@@ -1,13 +1,16 @@
-import { mkdir, readFile, unlink, writeFile } from "fs/promises";
 import { existsSync } from "fs";
+import { mkdir, readFile, unlink, writeFile } from "fs/promises";
 import path from "path";
 
 import { prepareAPI } from "../lib/core/api.js";
-import { downloadAll } from "./download.js";
 import C from "./config.json" with { type: "json" };
+import { downloadAll } from "./download.js";
 
 // cli entry
-async function getUserAllMedia(user: string, options?: { videoOnly?: boolean; imageOnly?: boolean; limit?: number }) {
+async function getUserAllMedia(
+  user: string,
+  options?: { videoOnly?: boolean; imageOnly?: boolean; limit?: number },
+) {
   const { getUserId, getUserMedia } = await prepareAPI({
     cookie: C.cookie,
     referer: `https://x.com/${user}/media`,

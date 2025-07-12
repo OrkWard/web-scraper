@@ -1,14 +1,13 @@
 import * as cheerio from "cheerio";
-import { get, post } from "../util/request.js";
 import { NetworkError } from "../util/exception.js";
+import { get, post } from "../util/request.js";
 
 /** parce main.xxx.js from x.com */
 async function prepareEntry() {
   const entry$ = cheerio.load(await get("https://x.com/home").text());
-  const [_, migrate] =
-    entry$("script")
-      .text()
-      .match(/"(http.*)"/) || [];
+  const [_, migrate] = entry$("script")
+    .text()
+    .match(/"(http.*)"/) || [];
   if (!migrate) {
     console.warn("[Prepare] script not found in `https://x.com/home`");
     return undefined;

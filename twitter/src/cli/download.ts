@@ -1,8 +1,8 @@
-import * as path from "path";
 import { writeFileSync } from "fs";
-import got from "got";
 import { writeFile } from "fs/promises";
+import got from "got";
 import { HttpsProxyAgent } from "https-proxy-agent";
+import * as path from "path";
 
 const proxyEnv = process.env.https_proxy || process.env.all_rpoxy;
 const proxyAgent = proxyEnv ? new HttpsProxyAgent(proxyEnv) : undefined;

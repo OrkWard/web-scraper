@@ -23,8 +23,7 @@ export interface Work {
   userName: string; // 作者名
 }
 
-const UA =
-  "Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/42.0";
+const UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/42.0";
 
 const options = {
   method: "GET",
@@ -36,17 +35,15 @@ const options = {
 };
 
 export async function fetchBookmark(
-  req: BookmarkRequest
+  req: BookmarkRequest,
 ): Promise<BookmarkResponse> {
   const res = await fetch(
-    `https://www.pixiv.net/ajax/user/${
-      req.user
-    }/novels/bookmarks?${new URLSearchParams({
+    `https://www.pixiv.net/ajax/user/${req.user}/novels/bookmarks?${new URLSearchParams({
       ...omit(req, ["user"]),
       lang: "zh",
       rest: "show",
     })}`,
-    options
+    options,
   );
 
   console.log(`|> target: ${res.url}`);
@@ -71,7 +68,7 @@ interface NovelResponse {
 export async function fetchNovel(req: NovelRequest): Promise<NovelResponse> {
   const res = await fetch(
     `https://www.pixiv.net/ajax/novel/${req.novel}?lang=zh`,
-    options
+    options,
   );
   return await res.json();
 }

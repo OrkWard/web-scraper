@@ -1,6 +1,6 @@
 import { google } from "googleapis";
-import { C } from "./config.js";
 import { logger } from "../../logger.js";
+import { C } from "./config.js";
 
 const youtube = google.youtube({
   version: "v3",
@@ -35,10 +35,17 @@ export async function fetchChannelId(channelName: string): Promise<string | null
 
 export async function fetchChannelVideos(channelId: string): Promise<YouTubeVideo[]> {
   try {
-    const channels = await youtube.channels.list({ id: [channelId], part: ["snippet", "contentDetails"] });
+    const channels = await youtube.channels.list({
+      id: [channelId],
+      part: ["snippet", "contentDetails"],
+    });
     const playlistId = channels.data.items?.[0].contentDetails?.relatedPlaylists?.uploads;
 
-    const items = await youtube.playlistItems.list({ playlistId, part: ["snippet"], maxResults: 50 });
+    const items = await youtube.playlistItems.list({
+      playlistId,
+      part: ["snippet"],
+      maxResults: 50,
+    });
 
     if (items.data.items?.some((v) => v.snippet?.channelId !== channelId)) {
       logger.error(`Malformed video detect. Full response: ${JSON.stringify(items.data)}`);
@@ -52,7 +59,8 @@ export async function fetchChannelVideos(channelId: string): Promise<YouTubeVide
             videoId: item.snippet?.resourceId?.videoId || "unknown",
             title: item.snippet?.title || "unknown",
             description: item.snippet?.description || "unknown",
-            thumbnailUrl: item.snippet?.thumbnails?.high?.url || item.snippet?.thumbnails?.default?.url || "unknown",
+            thumbnailUrl: item.snippet?.thumbnails?.high?.url
+              || item.snippet?.thumbnails?.default?.url || "unknown",
             publishedAt: item.snippet?.publishedAt || "unknown",
           };
         }) || []
