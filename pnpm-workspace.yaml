@@ -1,5 +1,7 @@
 packages:
-  - "twitter"
   - "youtube"
+  - "twitter"
+  - "twitter-cli"
   - "pixiv"
+  - "pixiv-cli"
   - "trpc-server"

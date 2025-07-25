@@ -2,11 +2,10 @@ import { existsSync } from "fs";
 import { mkdir, readFile, unlink, writeFile } from "fs/promises";
 import path from "path";
 
-import { prepareAPI } from "../lib/core/api.js";
+import { prepareAPI } from "twitter-scraper";
 import C from "./config.json" with { type: "json" };
 import { downloadAll } from "./download.js";
 
-// cli entry
 async function getUserAllMedia(
   user: string,
   options?: { videoOnly?: boolean; imageOnly?: boolean; limit?: number },
@@ -70,7 +69,9 @@ async function getUserAllMedia(
   await downloadAll(resources, outputDir);
 }
 
-function parseCli(argv: string[]) {
+function main() {
+  // ============ argv parce ===========
+  const argv = process.argv.slice(2);
   let name = undefined;
   let videoOnly = false;
   let imageOnly = false;
@@ -115,4 +116,4 @@ function parseCli(argv: string[]) {
   getUserAllMedia(name, { imageOnly, videoOnly, limit });
 }
 
-parseCli(process.argv.slice(2));
+main();

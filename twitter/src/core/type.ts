@@ -3,18 +3,18 @@ export type TweetEntry = {
   sortIndex: string;
   content:
     | {
-      entryType: "TimelineTimelineItem";
-      itemContent: TimelineTweetItem;
-    }
+        entryType: "TimelineTimelineItem";
+        itemContent: TimelineTweetItem;
+      }
     | {
-      entryType: "TimelineTimelineModule";
-      items: {
-        entryId: string;
-        item: {
-          itemContent: TimelineTweetItem;
-        };
-      }[];
-    };
+        entryType: "TimelineTimelineModule";
+        items: {
+          entryId: string;
+          item: {
+            itemContent: TimelineTweetItem;
+          };
+        }[];
+      };
 };
 
 export interface TimelineTweetItem {

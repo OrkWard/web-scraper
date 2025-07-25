@@ -1,11 +1,8 @@
 import { writeFileSync } from "fs";
 import { writeFile } from "fs/promises";
-import got from "got";
-import { HttpsProxyAgent } from "https-proxy-agent";
 import * as path from "path";
 
-const proxyEnv = process.env.https_proxy || process.env.all_rpoxy;
-const proxyAgent = proxyEnv ? new HttpsProxyAgent(proxyEnv) : undefined;
+import { get, sleep } from "./utils.js";
 
 function handleSIGINT(callback?: () => void) {
   let aboutToExit = false;
@@ -17,14 +14,6 @@ function handleSIGINT(callback?: () => void) {
   return () => {
     return aboutToExit;
   };
-}
-
-async function sleep(time: number = 1000) {
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(void 0);
-    }, time);
-  });
 }
 
 export async function downloadAll(urls: string[], outputDir: string) {
@@ -47,7 +36,7 @@ export async function downloadAll(urls: string[], outputDir: string) {
     }
     await Promise.all(
       urls.slice(i, i + 10).map(async (u) => {
-        const file = await got(u, { agent: { https: proxyAgent } }).buffer();
+        const file = await get(u).buffer();
         if (!file) {
           return;
         }
