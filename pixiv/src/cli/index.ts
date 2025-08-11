@@ -2,7 +2,6 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import meow from "meow";
 import { fetchBookmark, fetchNovel } from "../lib/core/api.js";
-import { config } from "./config.js";
 
 const cli = meow(
   `
@@ -61,8 +60,8 @@ if (!fs.existsSync(outputDir)) {
 }
 
 const headers = {
-  cookie: config.cookie,
-  "User-Agent": config.userAgent,
+  cookie: process.env.cookie,
+  "User-Agent": process.env.userAgent,
 };
 let offset = startOffset;
 while (true) {

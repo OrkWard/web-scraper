@@ -1,10 +1,9 @@
 import { google } from "googleapis";
 import { logger } from "../../logger.js";
-import { C } from "./config.js";
 
 const youtube = google.youtube({
   version: "v3",
-  auth: C.YOUTUBE_API_KEY,
+  auth: process.env.YOUTUBE_API_KEY,
 });
 
 export interface YouTubeVideo {
@@ -59,8 +58,10 @@ export async function fetchChannelVideos(channelId: string): Promise<YouTubeVide
             videoId: item.snippet?.resourceId?.videoId || "unknown",
             title: item.snippet?.title || "unknown",
             description: item.snippet?.description || "unknown",
-            thumbnailUrl: item.snippet?.thumbnails?.high?.url
-              || item.snippet?.thumbnails?.default?.url || "unknown",
+            thumbnailUrl:
+              item.snippet?.thumbnails?.high?.url ||
+              item.snippet?.thumbnails?.default?.url ||
+              "unknown",
             publishedAt: item.snippet?.publishedAt || "unknown",
           };
         }) || []

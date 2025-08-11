@@ -9,11 +9,11 @@
   "scripts": {
     "build": "tsc --build",
     "dev": "tsc --build -w",
-    "download": "node ./dist/cli/index.js"
+    "download": "op run --env-file ./env -- node ./dist/cli/index.js"
   },
   "dependencies": {
-    "twitter-scraper": "workspace:*",
     "got": "^14.4.5",
-    "https-proxy-agent": "^7.0.5"
+    "https-proxy-agent": "^7.0.5",
+    "twitter-scraper": "workspace:*"
   }
 }

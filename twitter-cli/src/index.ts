@@ -3,7 +3,6 @@ import { mkdir, readFile, unlink, writeFile } from "fs/promises";
 import path from "path";
 
 import { prepareAPI } from "twitter-scraper";
-import C from "./config.json" with { type: "json" };
 import { downloadAll } from "./download.js";
 
 async function getUserAllMedia(
@@ -11,12 +10,12 @@ async function getUserAllMedia(
   options?: { videoOnly?: boolean; imageOnly?: boolean; limit?: number },
 ) {
   const { getUserId, getUserMedia } = await prepareAPI({
-    cookie: C.cookie,
+    cookie: process.env.cookie,
     referer: `https://x.com/${user}/media`,
     "user-agent":
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
-    "x-csrf-token": C["x-csrf-token"],
-    Authorization: C.Authorization,
+    "x-csrf-token": process.env.X_CSRF_TOKEN,
+    Authorization: process.env.Authorization,
   });
 
   const outputDir = path.join(process.cwd(), "output", user);

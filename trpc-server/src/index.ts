@@ -1,3 +1,4 @@
+import "dotenv/config";
 import "./sentry.js";
 import * as Sentry from "@sentry/node";
 import { createHTTPServer } from "@trpc/server/adapters/standalone";
@@ -12,18 +13,11 @@ import { logger } from "./logger.js";
 import { trpc } from "./trpc.js";
 
 const router = trpc.router({
-  twitter: trpc.procedure
-    .input(z.object({ username: z.string() }))
-    .query(async ({ input }) => {
-      return getUserTweet(input.username);
-    }),
+  twitter: trpc.procedure.input(z.object({ username: z.string() })).query(async ({ input }) => {
+    return getUserTweet(input.username);
+  }),
   youtube: trpc.procedure
-    .input(
-      z.union([
-        z.object({ channelName: z.string() }),
-        z.object({ channelId: z.string() }),
-      ]),
-    )
+    .input(z.union([z.object({ channelName: z.string() }), z.object({ channelId: z.string() })]))
     .query(async ({ input }) => {
       if ("channelName" in input) {
         return getYoutubeChannelVideosByName(input.channelName);

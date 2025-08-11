@@ -1,5 +1,5 @@
 import { omit } from "es-toolkit";
-import got from "got";
+import got, { Headers } from "got";
 
 interface BookmarkRequest {
   tag: string;
@@ -40,7 +40,7 @@ interface NovelResponse {
 
 export async function fetchBookmark(
   req: BookmarkRequest,
-  headers: Record<string, string>,
+  headers: Headers,
 ): Promise<BookmarkResponse> {
   const res = await got(
     `https://www.pixiv.net/ajax/user/${req.user}/novels/bookmarks?${new URLSearchParams({
@@ -59,10 +59,7 @@ export async function fetchBookmark(
   return res.body as BookmarkResponse;
 }
 
-export async function fetchNovel(
-  req: NovelRequest,
-  headers: Record<string, string>,
-): Promise<NovelResponse> {
+export async function fetchNovel(req: NovelRequest, headers: Headers): Promise<NovelResponse> {
   const res = await got(`https://www.pixiv.net/ajax/novel/${req.novel}?lang=zh`, {
     headers,
     responseType: "json",
