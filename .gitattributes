@@ -1,2 +1,0 @@
-config.json filter=git-crypt diff=git-crypt
-config.ts filter=git-crypt diff=git-crypt
