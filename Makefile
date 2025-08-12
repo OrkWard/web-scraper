@@ -1,7 +1,7 @@
 IMAGE_NAME := ghcr.io/orkward/web-scraper
 GIT_TAG := $(shell git describe --tags --always)
 
-.PHONY: all build push clean
+.PHONY: all build push
 
 all: build push
 
@@ -15,6 +15,3 @@ build:
 push:
 	docker push $(IMAGE_NAME):$(GIT_TAG)
 	docker push $(IMAGE_NAME):latest
-
-clean:
-	find . -name "node_modules" -type d -prune -exec rm -rf {} +
