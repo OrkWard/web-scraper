@@ -30,9 +30,9 @@ async function prepareEntry() {
 /** fetch main.xxx.js */
 export async function getMain() {
   // return await get((await prepareEntry()) || "https://abs.twimg.com/responsive-web/client-web/main.855db29a.js").text();
-  const url = "https://abs.twimg.com/responsive-web/client-web/main.855db29a.js";
+  const url = "https://abs.twimg.com/responsive-web/client-web/main.3eb0a9ba.js";
   try {
-    return await get("https://abs.twimg.com/responsive-web/client-web/main.855db29a.js").text();
+    return await get("https://abs.twimg.com/responsive-web/client-web/main.3eb0a9ba.js").text();
   } catch (err) {
     throw new NetworkError(url, err as Error);
   }
