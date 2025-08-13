@@ -5,3 +5,6 @@ packages:
   - "pixiv"
   - "pixiv-cli"
   - "trpc-server"
+
+catalog:
+  "@types/node": v24.2.1

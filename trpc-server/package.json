@@ -8,19 +8,18 @@
     "decrypt-env": "op inject --in-file .example.env --out-file .env",
     "dev": "tsc --build --watch",
     "build": "tsc --build",
-    "start": "REDIS=redis://localhost:6379/1 node ./dist/index.js"
+    "start": "node --env-file=.env ./dist/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^20.16.5",
+    "@types/node": "catalog:",
     "typescript": "^5.8.3"
   },
   "dependencies": {
     "@sentry/node": "^9.15.0",
     "@trpc/server": "^11.1.2",
-    "dotenv": "^17.2.1",
     "googleapis": "^148.0.0",
     "html-entities": "^2.6.0",
     "pino": "^9.6.0",

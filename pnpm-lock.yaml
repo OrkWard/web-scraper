@@ -4,6 +4,12 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  default:
+    '@types/node':
+      specifier: v24.2.1
+      version: 24.2.1
+
 importers:
 
   pixiv:
@@ -19,8 +25,8 @@ importers:
         version: 13.2.0
     devDependencies:
       '@types/node':
-        specifier: ^20.10.0
-        version: 20.17.32
+        specifier: 'catalog:'
+        version: 24.2.1
       tsx:
         specifier: ^4.7.0
         version: 4.20.3
@@ -36,9 +42,6 @@ importers:
       '@trpc/server':
         specifier: ^11.1.2
         version: 11.1.2(typescript@5.8.3)
-      dotenv:
-        specifier: ^17.2.1
-        version: 17.2.1
       googleapis:
         specifier: ^148.0.0
         version: 148.0.0
@@ -62,8 +65,8 @@ importers:
         version: 3.24.3
     devDependencies:
       '@types/node':
-        specifier: ^20.16.5
-        version: 20.17.32
+        specifier: 'catalog:'
+        version: 24.2.1
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
@@ -90,8 +93,8 @@ importers:
         version: 7.0.6
     devDependencies:
       '@types/node':
-        specifier: ^20.16.5
-        version: 20.17.32
+        specifier: 'catalog:'
+        version: 24.2.1
       typescript:
         specifier: ^5.6.2
         version: 5.8.3
@@ -109,8 +112,8 @@ importers:
         version: link:../twitter
     devDependencies:
       '@types/node':
-        specifier: ^20.16.5
-        version: 20.17.32
+        specifier: 'catalog:'
+        version: 24.2.1
       typescript:
         specifier: ^5.6.2
         version: 5.8.3
@@ -544,8 +547,8 @@ packages:
   '@types/mysql@2.15.26':
     resolution: {integrity: sha512-DSLCOXhkvfS5WNNPbfn2KdICAmk8lLc+/PNvnPnF7gOdMZCxopXduqv0OQ13y/yA/zXTSikZZqVgybUxOEg6YQ==}
 
-  '@types/node@20.17.32':
-    resolution: {integrity: sha512-zeMXFn8zQ+UkjK4ws0RiOC9EWByyW1CcVmLe+2rQocXRsGEDxUCwPEIVgpsGcLHS/P8JkT0oa3839BRABS0oPw==}
+  '@types/node@24.2.1':
+    resolution: {integrity: sha512-DRh5K+ka5eJic8CjH7td8QpYEV6Zo10gfRkjHCO3weqZHWDtAaSTFtl4+VMqOJ4N5jcuhZ9/l+yy8rVgw7BQeQ==}
 
   '@types/pg-pool@2.0.6':
     resolution: {integrity: sha512-TaAUE5rq2VQYxab5Ts7WZhKNmuN78Q6PiFonTDdpbx8a1H0M1vhy3rhiMjl+e2iHmogyMw7jZF4FrE6eJUy5HQ==}
@@ -665,10 +668,6 @@ packages:
 
   domutils@3.2.2:
     resolution: {integrity: sha512-6kZKyUajlDuqlHKVX1w7gyslj9MPIXzIFiz/rGu35uC1wMi+kMhQwGhl4lt9unC9Vb9INnY9Z3/ZA3+FhASLaw==}
-
-  dotenv@17.2.1:
-    resolution: {integrity: sha512-kQhDYKZecqnM0fCnzI5eIv5L4cAe/iRI+HqMbO/hbRdTAeXDG+M9FjipUxNfbARuEg4iHIbhnhs78BCHNbSxEQ==}
-    engines: {node: '>=12'}
 
   dunder-proto@1.0.1:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
@@ -1085,8 +1084,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  undici-types@6.19.8:
-    resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
+  undici-types@7.10.0:
+    resolution: {integrity: sha512-t5Fy/nfn+14LuOc2KNYg75vZqClpAiqscVvMygNnlsHBFpSXdJaYtXMcdNLpl/Qvc3P2cB3s6lOV51nqsFq4ag==}
 
   undici@6.21.2:
     resolution: {integrity: sha512-uROZWze0R0itiAKVPsYhFov9LxrPMHLMEQFszeI2gCN6bnIIZ8twzBCJcN2LJrBBLfrP0t1FW0g+JmKVl8Vk1g==}
@@ -1546,17 +1545,17 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 20.17.32
+      '@types/node': 24.2.1
 
   '@types/http-cache-semantics@4.0.4': {}
 
   '@types/mysql@2.15.26':
     dependencies:
-      '@types/node': 20.17.32
+      '@types/node': 24.2.1
 
-  '@types/node@20.17.32':
+  '@types/node@24.2.1':
     dependencies:
-      undici-types: 6.19.8
+      undici-types: 7.10.0
 
   '@types/pg-pool@2.0.6':
     dependencies:
@@ -1564,7 +1563,7 @@ snapshots:
 
   '@types/pg@8.6.1':
     dependencies:
-      '@types/node': 20.17.32
+      '@types/node': 24.2.1
       pg-protocol: 1.9.5
       pg-types: 2.2.0
 
@@ -1572,7 +1571,7 @@ snapshots:
 
   '@types/tedious@4.0.14':
     dependencies:
-      '@types/node': 20.17.32
+      '@types/node': 24.2.1
 
   acorn-import-attributes@1.9.5(acorn@8.14.1):
     dependencies:
@@ -1686,8 +1685,6 @@ snapshots:
       dom-serializer: 2.0.0
       domelementtype: 2.3.0
       domhandler: 5.0.3
-
-  dotenv@17.2.1: {}
 
   dunder-proto@1.0.1:
     dependencies:
@@ -2169,7 +2166,7 @@ snapshots:
 
   typescript@5.8.3: {}
 
-  undici-types@6.19.8: {}
+  undici-types@7.10.0: {}
 
   undici@6.21.2: {}
 

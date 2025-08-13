@@ -1,4 +1,3 @@
-import "dotenv/config";
 import "./sentry.js";
 import * as Sentry from "@sentry/node";
 import { createHTTPServer } from "@trpc/server/adapters/standalone";
