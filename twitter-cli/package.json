@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc --build",
     "dev": "tsc --build -w",
-    "download": "op run --env-file ./env -- node ./dist/cli/index.js"
+    "download": "op run --env-file .env -- node ./dist/index.js"
   },
   "dependencies": {
     "got": "^14.4.5",
