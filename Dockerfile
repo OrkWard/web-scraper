@@ -10,4 +10,4 @@ RUN npm i -g pnpm@9 \
     && pnpm run -F trpc-server build
 
 WORKDIR /app/trpc-server
-CMD ["npm", "run", "start"]
+CMD ["node", "./dist/index.js"]
