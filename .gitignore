@@ -3,4 +3,4 @@ dist
 output
 .DS_Store
 tsconfig.tsbuildinfo
-trpc-server/.env
+.env

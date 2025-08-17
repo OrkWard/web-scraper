@@ -7,7 +7,7 @@
     "dev": "tsx src/cli/index.ts",
     "start": "node dist/cli/index.js",
     "build": "tsc",
-    "download": "op run --env-file ./env -- node dist/cli/index.js"
+    "download": "op run --env-file ./example.env -- node dist/cli/index.js"
   },
   "dependencies": {
     "got": "^14.0.0",
