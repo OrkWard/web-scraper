@@ -7,7 +7,7 @@ COPY --parents pnpm-lock.yaml pnpm-workspace.yaml trpc-server twitter ./
 
 RUN npm i -g pnpm@9 \
     && pnpm i --frozen-lockfile \
-    && pnpm run -F trpc-server build
+    && pnpm run -F trpc-server -F twitter-scraper build
 
 WORKDIR /app/trpc-server
 CMD ["node", "./dist/index.js"]

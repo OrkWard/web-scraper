@@ -4,18 +4,19 @@
   "main": "./dist/index.js",
   "devDependencies": {
     "@types/node": "catalog:",
-    "typescript": "^5.6.2"
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2"
   },
   "scripts": {
     "build": "tsc",
-    "dev": "tsc -w"
+    "dev": "tsup src/index.ts --format esm --watch --sourcemap"
   },
   "dependencies": {
-    "acorn": "^8.12.1",
+    "acorn": "^8.15.0",
     "acorn-walk": "^8.3.4",
-    "cheerio": "^1.0.0",
-    "es-toolkit": "^1.32.0",
-    "got": "^14.4.5",
-    "https-proxy-agent": "^7.0.5"
+    "cheerio": "^1.1.2",
+    "es-toolkit": "^1.39.10",
+    "got": "^14.4.8",
+    "https-proxy-agent": "^7.0.6"
   }
 }

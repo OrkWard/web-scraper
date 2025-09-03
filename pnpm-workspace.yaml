@@ -1,10 +1,10 @@
 packages:
-  - "youtube"
-  - "twitter"
-  - "twitter-cli"
-  - "pixiv"
-  - "pixiv-cli"
-  - "trpc-server"
+  - youtube
+  - twitter
+  - twitter-cli
+  - pixiv
+  - pixiv-cli
+  - trpc-server
 
 catalog:
-  "@types/node": v24.2.1
+  '@types/node': 24.2.1
