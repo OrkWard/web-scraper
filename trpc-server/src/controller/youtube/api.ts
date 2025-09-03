@@ -40,6 +40,10 @@ export async function fetchChannelVideos(channelId: string): Promise<YouTubeVide
     });
     const playlistId = channels.data.items?.[0].contentDetails?.relatedPlaylists?.uploads;
 
+    if (!playlistId) {
+      throw new Error(`Playlist id is null for channel id ${channelId}`);
+    }
+
     const items = await youtube.playlistItems.list({
       playlistId,
       part: ["snippet"],
