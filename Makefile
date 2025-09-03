@@ -12,6 +12,6 @@ build:
 	  -t $(IMAGE_NAME):$(GIT_TAG) \
 	  -t $(IMAGE_NAME):latest .
 
-push:
+push: build
 	docker push $(IMAGE_NAME):$(GIT_TAG)
 	docker push $(IMAGE_NAME):latest
