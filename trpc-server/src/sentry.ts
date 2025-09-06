@@ -1,8 +1,9 @@
 import * as Sentry from "@sentry/node";
+import packageJson from "../package.json" with { type: "json" };
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
   sendDefaultPii: true,
   environment: process.env.NODE_ENV ?? "development",
-  release: `${process.env.npm_package_name}@${process.env.npm_package_version}`,
+  release: `trpc-server@${packageJson.version}`,
 });

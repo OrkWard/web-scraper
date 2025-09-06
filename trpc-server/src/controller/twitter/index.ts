@@ -13,12 +13,12 @@ function parseTweetEntry(entries: TweetEntry[]) {
   try {
     const result = entries
       .filter((e) =>
-        ["TimelineTimelineItem", "TimelineTimelineModule"].includes(e.content.entryType)
+        ["TimelineTimelineItem", "TimelineTimelineModule"].includes(e.content.entryType),
       )
       .map((e) =>
         e.content.entryType === "TimelineTimelineItem"
           ? e.content.itemContent
-          : e.content.items.map((i) => i.item.itemContent).reverse()
+          : e.content.items.map((i) => i.item.itemContent).reverse(),
       )
       .flat()
       .filter((t) => t.itemType === "TimelineTweet")

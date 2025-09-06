@@ -5,15 +5,14 @@
   "type": "module",
   "scripts": {
     "config": "op inject --in-file .example.env --out-file .env -f",
-    "watch": "tsup --watch",
-    "dev": "node --env-file=.env --watch ./dist/index.js",
-    "build": "tsc && tsup",
-    "start": "node --env-file=.env ./dist/index.js"
+    "build-watch": "bunchee --watch",
+    "start-watch": "node --env-file=.env --watch ./dist/index.js",
+    "dev": "conc 'pnpm:build-watch' 'pnpm:start-watch'",
+    "build": "tsc && bunchee",
+    "start": "NODE_ENV=production node --env-file=.env ./dist/index.js"
   },
   "devDependencies": {
-    "@types/node": "catalog:",
-    "tsup": "^8.5.0",
-    "typescript": "^5.8.3"
+    "@types/node": "catalog:"
   },
   "dependencies": {
     "@sentry/node": "^9.15.0",
@@ -25,5 +24,9 @@
     "redis": "^5.0.0",
     "twitter-scraper": "workspace:*",
     "zod": "^3.24.3"
-  }
+  },
+  "files": [
+    "dist"
+  ],
+  "types": "./dist/index.d.ts"
 }

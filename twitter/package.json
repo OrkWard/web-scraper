@@ -2,14 +2,13 @@
   "name": "twitter-scraper",
   "type": "module",
   "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "devDependencies": {
-    "@types/node": "catalog:",
-    "tsup": "^8.5.0",
-    "typescript": "^5.9.2"
+    "@types/node": "catalog:"
   },
   "scripts": {
-    "build": "tsc",
-    "dev": "tsup src/index.ts --format esm --watch --sourcemap"
+    "build": "bunchee",
+    "dev": "bunchee --watch"
   },
   "dependencies": {
     "acorn": "^8.15.0",
