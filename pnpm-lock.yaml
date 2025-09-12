@@ -101,28 +101,15 @@ importers:
         specifier: ^7.0.6
         version: 7.0.6
     devDependencies:
+      '@optique/core':
+        specifier: ^0.4.0
+        version: 0.4.0
+      '@optique/run':
+        specifier: ^0.4.0
+        version: 0.4.0
       '@types/node':
         specifier: 'catalog:'
         version: 24.2.1
-
-  twitter-cli:
-    dependencies:
-      got:
-        specifier: ^14.4.5
-        version: 14.4.7
-      https-proxy-agent:
-        specifier: ^7.0.5
-        version: 7.0.6
-      twitter-scraper:
-        specifier: workspace:*
-        version: link:../twitter
-    devDependencies:
-      '@types/node':
-        specifier: 'catalog:'
-        version: 24.2.1
-      typescript:
-        specifier: ^5.6.2
-        version: 5.8.3
 
 packages:
 
@@ -501,6 +488,14 @@ packages:
     engines: {node: '>=14'}
     peerDependencies:
       '@opentelemetry/api': ^1.1.0
+
+  '@optique/core@0.4.0':
+    resolution: {integrity: sha512-UiG5fYluVGwvJx073CqGlkIob4uAhSp1SAY2fPdpD5icGSwf6W1rMqaaFyJD4c0TuSs8w3HGksDwgLMznJDIQg==}
+    engines: {bun: '>=1.2.0', deno: '>=2.3.0', node: '>=20.0.0'}
+
+  '@optique/run@0.4.0':
+    resolution: {integrity: sha512-28fidIwmPweQf5Z6FsbkQ5ooGoQulXptlCtNoavqpOu2B1Xcy88y9Sd2IVigrE0CVsXS1AMJmwNM3KAXICpilQ==}
+    engines: {bun: '>=1.2.0', deno: '>=2.3.0', node: '>=20.0.0'}
 
   '@prisma/instrumentation@6.6.0':
     resolution: {integrity: sha512-M/a6njz3hbf2oucwdbjNKrSMLuyMCwgDrmTtkF1pm4Nm7CU45J/Hd6lauF2CDACTUYzu3ymcV7P0ZAhIoj6WRw==}
@@ -2095,6 +2090,12 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 1.30.1(@opentelemetry/api@1.9.0)
+
+  '@optique/core@0.4.0': {}
+
+  '@optique/run@0.4.0':
+    dependencies:
+      '@optique/core': 0.4.0
 
   '@prisma/instrumentation@6.6.0(@opentelemetry/api@1.9.0)':
     dependencies:

@@ -3,12 +3,16 @@
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "bin": "./dist/bin.js",
   "devDependencies": {
+    "@optique/core": "^0.4.0",
+    "@optique/run": "^0.4.0",
     "@types/node": "catalog:"
   },
   "scripts": {
     "build": "bunchee",
-    "dev": "bunchee --watch"
+    "dev": "bunchee --watch",
+    "download": "op run --env-file example-cli.env -- node ./dist/bin.js"
   },
   "dependencies": {
     "acorn": "^8.15.0",

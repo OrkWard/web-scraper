@@ -1,5 +1,8 @@
+import { existsSync } from "fs";
+import { mkdir } from "fs/promises";
 import got from "got";
 import { HttpsProxyAgent } from "https-proxy-agent";
+import path from "path";
 
 export async function sleep(time: number = 1000) {
   await new Promise((resolve) => {
