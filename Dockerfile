@@ -11,5 +11,5 @@ RUN npm i -g pnpm@9 \
     && find . -name "node_modules" -type d -prune -exec rm -rf '{}' + \
     && pnpm i --prod --frozen-lockfile
 
-WORKDIR /app/trpc-server
+WORKDIR /app/packages/trpc-server
 CMD ["node", "./dist/index.js"]

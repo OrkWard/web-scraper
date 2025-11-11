@@ -1,7 +1,5 @@
 packages:
-  - twitter
-  - pixiv
-  - trpc-server
+  - packages/*
 
 catalog:
   "@types/node": 24.2.1
