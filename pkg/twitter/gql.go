@@ -19,7 +19,7 @@ type NewGQLClientResult struct {
 	err    error
 }
 
-func NewGQLClient() <-chan NewGQLClientResult {
+func NewGQLClient(httpClient *http.Client) <-chan NewGQLClientResult {
 	resultCh := make(chan NewGQLClientResult)
 
 	sendError := func(err error) {
@@ -29,7 +29,12 @@ func NewGQLClient() <-chan NewGQLClientResult {
 	}
 
 	go func() {
-		resp, err := http.Get("https://abs.twimg.com/responsive-web/client-web/main.3eb0a9ba.js")
+		req, err := http.NewRequest("GET", "https://abs.twimg.com/responsive-web/client-web/main.3eb0a9ba.js", nil)
+		if err != nil {
+			sendError(err)
+			return
+		}
+		resp, err := httpClient.Do(req)
 		if err != nil {
 			sendError(err)
 			return

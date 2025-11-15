@@ -3,17 +3,21 @@ package twitter
 import (
 	"context"
 	"fmt"
+	"net/http"
 )
 
 type TwitterClient struct {
-	ready     chan struct{}
-	initErr   error
-	gqlClient *GQLClient
+	ready       chan struct{}
+	initErr     error
+	gqlClient   *GQLClient
+	httpClient  *http.Client
+	authHeaders http.Header
 }
 
-func NewTwitterClient(ctx context.Context) *TwitterClient {
+func NewTwitterClient(ctx context.Context, headers http.Header) *TwitterClient {
 	c := &TwitterClient{
-		ready: make(chan struct{}),
+		ready:       make(chan struct{}),
+		authHeaders: headers,
 	}
 
 	go c.runInit(ctx)
@@ -24,8 +28,10 @@ func NewTwitterClient(ctx context.Context) *TwitterClient {
 func (c *TwitterClient) runInit(ctx context.Context) {
 	defer close(c.ready)
 
+	c.httpClient = http.DefaultClient
+
 	select {
-	case result := <-NewGQLClient():
+	case result := <-NewGQLClient(c.httpClient):
 		c.initErr = result.err
 		c.gqlClient = result.client
 
