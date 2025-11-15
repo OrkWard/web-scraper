@@ -49,6 +49,7 @@ func (c *TwitterClient) GetUserMedia(userId string, topCursor *string) (*UserMed
 		"payments_enabled":          false,
 		"rweb_xchat_enabled":        false,
 		"profile_label_improvements_pcf_label_in_post_enabled":                    true,
+		"responsive_web_profile_redirect_enabled":                                 false,
 		"rweb_tipjar_consumption_enabled":                                         true,
 		"verified_phone_label_enabled":                                            false,
 		"creator_subscriptions_tweet_preview_api_enabled":                         true,
@@ -266,15 +267,15 @@ func (c *TwitterClient) GetUserId(userName string) (string, error) {
 		return "", err
 	}
 
-	variables := map[string]interface{}{
+	variables := map[string]any{
 		"screen_name":           userName,
-		"withGrokTranslatedBio": true,
+		"withGrokTranslatedBio": false,
 	}
-	features := map[string]interface{}{
+	features := map[string]any{
 		"hidden_profile_subscriptions_enabled":                              true,
 		"payments_enabled":                                                  false,
-		"rweb_xchat_enabled":                                                false,
 		"profile_label_improvements_pcf_label_in_post_enabled":              true,
+		"responsive_web_profile_redirect_enabled":                           false,
 		"rweb_tipjar_consumption_enabled":                                   true,
 		"verified_phone_label_enabled":                                      false,
 		"subscriptions_verification_info_is_identity_verified_enabled":      true,
@@ -286,7 +287,7 @@ func (c *TwitterClient) GetUserId(userName string) (string, error) {
 		"responsive_web_graphql_skip_user_profile_image_extensions_enabled": false,
 		"responsive_web_graphql_timeline_navigation_enabled":                true,
 	}
-	fieldToggles := map[string]interface{}{
+	fieldToggles := map[string]any{
 		"withAuxiliaryUserLabels": true,
 	}
 
@@ -320,7 +321,11 @@ func (c *TwitterClient) GetUserId(userName string) (string, error) {
 
 	var result GetUserIdResponse
 	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
-		return "", fmt.Errorf("failed to decode response: %w", err)
+		bodyBytes, err := io.ReadAll(resp.Body)
+		if err != nil {
+			return "", fmt.Errorf("failed to read body on json decode error: %w", err)
+		}
+		return "", fmt.Errorf("failed to decode response: %w. body: %s", err, string(bodyBytes))
 	}
 
 	if result.Data.User.Result.RestID == "" {
