@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/OrkWard/web-scraper/internal/download"
+	twitter_scraper "github.com/OrkWard/web-scraper/internal/twitter-scraper"
 	"github.com/OrkWard/web-scraper/pkg/twitter"
 	"github.com/joho/godotenv"
 )
@@ -100,12 +100,12 @@ func main() {
 	// Download files
 	if !*noImage {
 		fmt.Println("Downloading images...")
-		download.DownloadAll(imgs, outputDir)
+		twitter_scraper.DownloadAll(imgs, outputDir)
 	}
 
 	if !*noVideo {
 		fmt.Println("Downloading videos...")
-		download.DownloadAll(videos, outputDir)
+		twitter_scraper.DownloadAll(videos, outputDir)
 	}
 }
 

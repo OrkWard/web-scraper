@@ -1,4 +1,4 @@
-package download
+package twitter_scraper
 
 import (
 	"fmt"
