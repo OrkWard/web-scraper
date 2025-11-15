@@ -102,11 +102,11 @@ importers:
         version: 7.0.6
     devDependencies:
       '@optique/core':
-        specifier: ^0.4.0
-        version: 0.4.0
+        specifier: ^0.6.0
+        version: 0.6.2
       '@optique/run':
-        specifier: ^0.4.0
-        version: 0.4.0
+        specifier: ^0.6.0
+        version: 0.6.2
       '@types/node':
         specifier: 'catalog:'
         version: 24.2.1
@@ -489,16 +489,12 @@ packages:
     peerDependencies:
       '@opentelemetry/api': ^1.1.0
 
-  '@optique/core@0.4.0':
-    resolution: {integrity: sha512-UiG5fYluVGwvJx073CqGlkIob4uAhSp1SAY2fPdpD5icGSwf6W1rMqaaFyJD4c0TuSs8w3HGksDwgLMznJDIQg==}
-    engines: {bun: '>=1.2.0', deno: '>=2.3.0', node: '>=20.0.0'}
-
   '@optique/core@0.6.2':
     resolution: {integrity: sha512-HTxIHJ8xLOSZotiU6Zc5BCJv+SJ8DMYmuiQM+7tjF7RolJn/pdZNe7M78G3+DgXL9lIf82l8aGcilmgVYRQnGQ==}
     engines: {bun: '>=1.2.0', deno: '>=2.3.0', node: '>=20.0.0'}
 
-  '@optique/run@0.4.0':
-    resolution: {integrity: sha512-28fidIwmPweQf5Z6FsbkQ5ooGoQulXptlCtNoavqpOu2B1Xcy88y9Sd2IVigrE0CVsXS1AMJmwNM3KAXICpilQ==}
+  '@optique/run@0.6.2':
+    resolution: {integrity: sha512-ERksB5bHozwEUVlTPToIc8UjZZBOgLeBhFZYh2lgldUbNDt7LItzgcErsPq5au5i5IBmmyCti4+2A3x+MRI4Xw==}
     engines: {bun: '>=1.2.0', deno: '>=2.3.0', node: '>=20.0.0'}
 
   '@prisma/instrumentation@6.6.0':
@@ -2062,11 +2058,9 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 1.30.1(@opentelemetry/api@1.9.0)
 
-  '@optique/core@0.4.0': {}
-
   '@optique/core@0.6.2': {}
 
-  '@optique/run@0.4.0':
+  '@optique/run@0.6.2':
     dependencies:
       '@optique/core': 0.6.2
 
