@@ -48,7 +48,7 @@ func run() error {
 	}
 
 	router := http.NewServeMux()
-	router.HandleFunc("/twitter/{userId}/posts", handler.MakeTwitterHandler(ctx, cfg.TwitterHeaders, redisClient))
+	router.HandleFunc("/twitter/{userName}/posts", handler.MakeTwitterHandler(ctx, cfg.TwitterHeaders, redisClient))
 	router.HandleFunc("/youtube/{channelName}/videos", handler.MakeYoutubeHandler(ytClient, redisClient))
 
 	server := &http.Server{

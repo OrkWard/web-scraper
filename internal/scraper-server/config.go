@@ -18,9 +18,9 @@ func LoadConfig() (*Config, error) {
 	}
 
 	headers := http.Header{}
-	headers.Set("Cookie", os.Getenv("TWI_COOKIE"))
-	headers.Set("X-CSRF-Token", os.Getenv("TWI_CSRF_TOKEN"))
-	headers.Set("Authorization", os.Getenv("TWI_Authorization"))
+	headers.Set("Cookie", os.Getenv("cookie"))
+	headers.Set("X-CSRF-Token", os.Getenv("X_CSRF_TOKEN"))
+	headers.Set("Authorization", os.Getenv("Authorization"))
 	headers.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36")
 
 	return &Config{

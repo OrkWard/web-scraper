@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/OrkWard/web-scraper/pkg/youtube"
-	"github.com/redis/go-redis/v9"
+	"github.com/go-redis/redis/v8"
 )
 
 const (

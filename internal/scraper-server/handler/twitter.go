@@ -4,11 +4,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 
 	"github.com/OrkWard/web-scraper/pkg/twitter"
-	"github.com/redis/go-redis/v9"
+	"github.com/go-redis/redis/v8"
 )
 
 const (
@@ -20,8 +21,8 @@ func MakeTwitterHandler(ctx context.Context, headers http.Header, redisClient *r
 	twitterClient := twitter.NewTwitterClient(ctx, headers)
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		userId := r.PathValue("userId")
-		cacheKey := fmt.Sprintf(twitterCacheKey, userId)
+		username := r.PathValue("userName")
+		cacheKey := fmt.Sprintf(twitterCacheKey, username)
 
 		cachedTweets, err := redisClient.Get(ctx, cacheKey).Bytes()
 		if err == nil {
@@ -30,9 +31,15 @@ func MakeTwitterHandler(ctx context.Context, headers http.Header, redisClient *r
 			return
 		}
 
+		userId, err := twitterClient.GetUserId(username)
+		if err != nil {
+			log.Println(err)
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
 		tweets, err := twitterClient.GetUserTweets(userId, 5)
 		if err != nil {
-			fmt.Println(err)
+			log.Println(err)
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}

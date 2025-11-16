@@ -3,8 +3,8 @@ module github.com/OrkWard/web-scraper
 go 1.25.4
 
 require (
+	github.com/go-redis/redis/v8 v8.11.5
 	github.com/joho/godotenv v1.5.1
-	github.com/redis/go-redis/v9 v9.16.0
 	google.golang.org/api v0.256.0
 )
 

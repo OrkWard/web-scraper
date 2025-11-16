@@ -2,15 +2,16 @@ package scraper_server
 
 import (
 	"context"
+	"log"
 	"os"
 
-	"github.com/redis/go-redis/v9"
+	"github.com/go-redis/redis/v8"
 )
 
 func NewRedisClient() (*redis.Client, error) {
 	redisURL := os.Getenv("REDIS")
 	if redisURL == "" {
-		redisURL = "redis://localhost:6379/0"
+		log.Fatalln("REDIS environment not found")
 	}
 	opts, err := redis.ParseURL(redisURL)
 	if err != nil {

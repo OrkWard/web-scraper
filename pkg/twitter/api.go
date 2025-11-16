@@ -175,9 +175,10 @@ func (c *TwitterClient) GetUserTweets(userId string, count int) ([]TweetEntry, e
 		"withVoice":                              true,
 	}
 	features := map[string]any{
-		"rweb_video_screen_enabled": false,
-		"payments_enabled":          false,
-		"rweb_xchat_enabled":        false,
+		"rweb_video_screen_enabled":                                               false,
+		"payments_enabled":                                                        false,
+		"rweb_xchat_enabled":                                                      false,
+		"responsive_web_profile_redirect_enabled":                                 false,
 		"profile_label_improvements_pcf_label_in_post_enabled":                    true,
 		"rweb_tipjar_consumption_enabled":                                         true,
 		"verified_phone_label_enabled":                                            false,
