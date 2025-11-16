@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 
@@ -14,9 +15,8 @@ import (
 )
 
 func main() {
-	err := godotenv.Load(".env")
-	if err != nil {
-		fmt.Println("Error loading .env file, assuming variables are set")
+	if err := godotenv.Load(".env"); err != nil {
+		log.Fatal("Error loading .env file")
 	}
 
 	noVideo := flag.Bool("v", false, "Only download images")
@@ -35,7 +35,6 @@ func main() {
 	fmt.Printf("Scraping user: %s\n", userName)
 	fmt.Printf("No video: %v, No image: %v, Limit: %d\n", *noVideo, *noImage, *maxCount)
 
-	// Read auth from env
 	headers := http.Header{}
 	headers.Set("Cookie", os.Getenv("cookie"))
 	headers.Set("X-CSRF-Token", os.Getenv("X_CSRF_TOKEN"))
@@ -62,7 +61,7 @@ func main() {
 	}
 
 	// Implement media fetching loop
-	var imgs, videos []string
+	var images, videos []string
 	var cursor *string
 	for {
 		result, err := client.GetUserMedia(userId, cursor)
@@ -76,31 +75,31 @@ func main() {
 			break
 		}
 
-		imgs = append(imgs, result.Images...)
+		images = append(images, result.Images...)
 		videos = append(videos, result.Videos...)
 
-		fmt.Printf("Fetched %d images and %d videos...\n", len(imgs), len(videos))
+		fmt.Printf("Fetched %d images and %d videos...\n", len(images), len(videos))
 
 		if result.Cursor == "" {
 			break
 		}
 		cursor = &result.Cursor
 
-		if *maxCount > 0 && (len(imgs)+len(videos)) >= *maxCount {
+		if *maxCount > 0 && (len(images)+len(videos)) >= *maxCount {
 			break
 		}
 	}
 
-	fmt.Printf("Total images: %d, Total videos: %d\n", len(imgs), len(videos))
+	fmt.Printf("Total images: %d, Total videos: %d\n", len(images), len(videos))
 
 	// Save metadata
-	saveMetadata(outputDir, "all_image.json", imgs)
+	saveMetadata(outputDir, "all_image.json", images)
 	saveMetadata(outputDir, "all_video.json", videos)
 
 	// Download files
 	if !*noImage {
 		fmt.Println("Downloading images...")
-		twitter_scraper.DownloadAll(imgs, outputDir)
+		twitter_scraper.DownloadAll(images, outputDir)
 	}
 
 	if !*noVideo {
