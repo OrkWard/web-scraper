@@ -1,15 +1,12 @@
-# syntax=docker/dockerfile:1-labs
-FROM node:22-bookworm AS scraper
+FROM golang:1.25.4-alpine AS builder
 ARG GIT_TAG
 LABEL org.opencontainers.image.version=$GIT_TAG
 WORKDIR /app
-COPY --parents pnpm-lock.yaml pnpm-workspace.yaml trpc-server twitter package.json ./
+COPY . .
+RUN go mod download \
+    && go build -ldflags="-w -s" -o /bin/scraper-server ./cmd/scraper-server
 
-RUN npm i -g pnpm@9 \
-    && pnpm i --frozen-lockfile \
-    && pnpm run -F trpc-server -F twitter-scraper build \
-    && find . -name "node_modules" -type d -prune -exec rm -rf '{}' + \
-    && pnpm i --prod --frozen-lockfile
-
-WORKDIR /app/packages/trpc-server
-CMD ["node", "./dist/index.js"]
+FROM alpine:latest
+COPY --from=builder /bin/scraper-server /bin/server
+EXPOSE 8080
+CMD ["server"]

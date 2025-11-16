@@ -1,5 +1,0 @@
-packages:
-  - packages/*
-
-catalog:
-  "@types/node": 24.2.1
