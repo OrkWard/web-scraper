@@ -1,0 +1,384 @@
+basePath: /
+definitions:
+  twitter.Description:
+    properties:
+      urls:
+        items:
+          $ref: '#/definitions/twitter.URLElement'
+        type: array
+    type: object
+  twitter.Hashtag:
+    properties:
+      text:
+        type: string
+    type: object
+  twitter.Media:
+    properties:
+      display_url:
+        type: string
+      expanded_url:
+        type: string
+      id_str:
+        type: string
+      media_url_https:
+        type: string
+      original_info:
+        $ref: '#/definitions/twitter.OriginalInfo'
+      sizes:
+        $ref: '#/definitions/twitter.Sizes'
+      type:
+        type: string
+      url:
+        type: string
+      video_info:
+        properties:
+          aspect_ratio:
+            items:
+              type: integer
+            type: array
+          duration_millis:
+            type: integer
+          variants:
+            items:
+              properties:
+                content_type:
+                  type: string
+                url:
+                  type: string
+              type: object
+            type: array
+        type: object
+    type: object
+  twitter.OriginalInfo:
+    properties:
+      height:
+        type: integer
+      width:
+        type: integer
+    type: object
+  twitter.PurpleEntities:
+    properties:
+      description:
+        $ref: '#/definitions/twitter.Description'
+      url:
+        $ref: '#/definitions/twitter.Description'
+    type: object
+  twitter.Sizes:
+    properties:
+      large:
+        $ref: '#/definitions/twitter.ThumbClass'
+      medium:
+        $ref: '#/definitions/twitter.ThumbClass'
+      small:
+        $ref: '#/definitions/twitter.ThumbClass'
+      thumb:
+        $ref: '#/definitions/twitter.ThumbClass'
+    type: object
+  twitter.ThumbClass:
+    properties:
+      h:
+        type: integer
+      resize:
+        type: string
+      w:
+        type: integer
+    type: object
+  twitter.TimelineTweetItem:
+    properties:
+      itemType:
+        type: string
+      tweet_results:
+        properties:
+          result:
+            $ref: '#/definitions/twitter.TimelineTweetResult'
+        type: object
+    type: object
+  twitter.TimelineTweetLegacy:
+    properties:
+      bookmark_count:
+        type: integer
+      created_at:
+        type: string
+      entities:
+        $ref: '#/definitions/twitter.TweetEntities'
+      favorite_count:
+        type: integer
+      full_text:
+        type: string
+      id_str:
+        type: string
+      is_quote_status:
+        type: boolean
+      quote_count:
+        type: integer
+      reply_count:
+        type: integer
+      retweet_count:
+        type: integer
+      retweeted_status_result:
+        properties:
+          result:
+            $ref: '#/definitions/twitter.TimelineTweetResult'
+        type: object
+      user_id_str:
+        type: string
+    type: object
+  twitter.TimelineTweetResult:
+    properties:
+      core:
+        properties:
+          user_results:
+            $ref: '#/definitions/twitter.UserResult'
+        type: object
+      legacy:
+        $ref: '#/definitions/twitter.TimelineTweetLegacy'
+      rest_id:
+        type: string
+      source:
+        type: string
+      views:
+        $ref: '#/definitions/twitter.Views'
+    type: object
+  twitter.TweetEntities:
+    properties:
+      hashtags:
+        items:
+          $ref: '#/definitions/twitter.Hashtag'
+        type: array
+      media:
+        items:
+          $ref: '#/definitions/twitter.Media'
+        type: array
+      symbols:
+        items: {}
+        type: array
+      urls:
+        items:
+          $ref: '#/definitions/twitter.URLElement'
+        type: array
+      user_mentions:
+        items:
+          $ref: '#/definitions/twitter.UserMention'
+        type: array
+    type: object
+  twitter.TweetEntry:
+    properties:
+      content:
+        properties:
+          entryType:
+            type: string
+          itemContent:
+            $ref: '#/definitions/twitter.TimelineTweetItem'
+          items:
+            items:
+              properties:
+                entryId:
+                  type: string
+                item:
+                  properties:
+                    itemContent:
+                      $ref: '#/definitions/twitter.TimelineTweetItem'
+                  type: object
+              type: object
+            type: array
+        type: object
+      entryId:
+        type: string
+      sortIndex:
+        type: string
+    type: object
+  twitter.URLElement:
+    properties:
+      display_url:
+        type: string
+      expanded_url:
+        type: string
+      url:
+        type: string
+    type: object
+  twitter.UserLegacy:
+    properties:
+      can_dm:
+        type: boolean
+      can_media_tag:
+        type: boolean
+      created_at:
+        type: string
+      default_profile:
+        type: boolean
+      default_profile_image:
+        type: boolean
+      description:
+        type: string
+      entities:
+        $ref: '#/definitions/twitter.PurpleEntities'
+      fast_followers_count:
+        type: integer
+      favourites_count:
+        type: integer
+      followers_count:
+        type: integer
+      following:
+        type: boolean
+      friends_count:
+        type: integer
+      has_custom_timelines:
+        type: boolean
+      is_translator:
+        type: boolean
+      listed_count:
+        type: integer
+      location:
+        type: string
+      media_count:
+        type: integer
+      name:
+        type: string
+      normal_followers_count:
+        type: integer
+      pinned_tweet_ids_str:
+        items:
+          type: string
+        type: array
+      possibly_sensitive:
+        type: boolean
+      profile_banner_url:
+        type: string
+      profile_image_url_https:
+        type: string
+      profile_interstitial_type:
+        type: string
+      screen_name:
+        type: string
+      statuses_count:
+        type: integer
+      translator_type:
+        type: string
+      url:
+        type: string
+      verified:
+        type: boolean
+      verified_type:
+        type: string
+      want_retweets:
+        type: boolean
+      withheld_in_countries:
+        items: {}
+        type: array
+    type: object
+  twitter.UserMention:
+    properties:
+      id_str:
+        type: string
+      indices:
+        items:
+          type: integer
+        type: array
+      name:
+        type: string
+      screen_name:
+        type: string
+    type: object
+  twitter.UserResult:
+    properties:
+      has_graduated_access:
+        type: boolean
+      id:
+        type: string
+      is_blue_verified:
+        type: boolean
+      legacy:
+        $ref: '#/definitions/twitter.UserLegacy'
+      parody_commentary_fan_label:
+        type: string
+      profile_image_shape:
+        type: string
+      rest_id:
+        type: string
+    type: object
+  twitter.Views:
+    properties:
+      count:
+        type: string
+      state:
+        type: string
+    type: object
+  youtube.YouTubeVideo:
+    properties:
+      description:
+        type: string
+      publishedAt:
+        type: string
+      thumbnailUrl:
+        type: string
+      title:
+        type: string
+      videoId:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a scraper API server.
+  title: Scraper API
+  version: "1.0"
+paths:
+  /twitter/{userName}/posts:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of tweets for a given user
+      parameters:
+      - description: Twitter username
+        in: path
+        name: userName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/twitter.TweetEntry'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get user tweets
+      tags:
+      - twitter
+  /youtube/{channelName}/videos:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of videos for a given YouTube channel
+      parameters:
+      - description: YouTube channel name
+        in: path
+        name: channelName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/youtube.YouTubeVideo'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get channel videos
+      tags:
+      - youtube
+swagger: "2.0"

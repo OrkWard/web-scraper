@@ -17,6 +17,17 @@ const (
 	twitterCacheTTL = 5 * time.Minute
 )
 
+// MakeTwitterHandler
+//
+//	@Summary		Get user tweets
+//	@Description	Get a list of tweets for a given user
+//	@Tags			twitter
+//	@Accept			json
+//	@Produce		json
+//	@Param			userName	path		string	true	"Twitter username"
+//	@Success		200			{array}		twitter.TweetEntry
+//	@Failure		500			{string}	string	"Internal Server Error"
+//	@Router			/twitter/{userName}/posts [get]
 func MakeTwitterHandler(ctx context.Context, headers http.Header, redisClient *redis.Client) http.HandlerFunc {
 	twitterClient := twitter.NewTwitterClient(ctx, headers)
 

@@ -15,6 +15,18 @@ const (
 	youtubeCacheTTL = 20 * time.Minute
 )
 
+// MakeYoutubeHandler
+//
+//	@Summary		Get channel videos
+//	@Description	Get a list of videos for a given YouTube channel
+//	@Tags			youtube
+//	@Accept			json
+//	@Produce		json
+//	@Param			channelName	path		string	true	"YouTube channel name"
+//	@Success		200			{array}		youtube.YouTubeVideo
+//	@Failure		400			{string}	string	"Bad Request"
+//	@Failure		500			{string}	string	"Internal Server Error"
+//	@Router			/youtube/{channelName}/videos [get]
 func MakeYoutubeHandler(ytClient *youtube.YouTubeClient, redisClient *redis.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		channelName := r.PathValue("channelName")

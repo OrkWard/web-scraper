@@ -15,3 +15,6 @@ build:
 push: build
 	docker push $(IMAGE_NAME):$(GIT_TAG)
 	docker push $(IMAGE_NAME):latest
+
+generate-swagger:
+	swag init -g cmd/scraper-server/main.go -o internal/scraper-server/docs
