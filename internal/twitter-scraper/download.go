@@ -29,7 +29,7 @@ func DownloadAll(urls []string, outputDir string) {
 	// Check for interrupt file
 	interruptFile := path.Join(outputDir, "download.int")
 	if _, err := os.Stat(interruptFile); err == nil {
-		fmt.Println("Unfinished download task detected, resuming...")
+		fmt.Println("[INFO] Unfinished download task detected, resuming...")
 		data, err := os.ReadFile(interruptFile)
 		if err == nil {
 			urls = strings.Split(string(data), "\n")
@@ -59,18 +59,19 @@ func DownloadAll(urls []string, outputDir string) {
 			break
 		}
 		urlChan <- url
-		fmt.Printf("==> progress: %.2f%%\n", float64(i+1)/float64(len(urls))*100)
+		fmt.Printf("\r[PROGRESS] downloading: %.2f%%", float64(i+1)/float64(len(urls))*100)
 	}
+	fmt.Println()
 	close(urlChan)
 	wg.Wait()
 
 	if shutdown {
-		fmt.Println("Saving progress...")
+		fmt.Println("[WARN] Saving progress...")
 		data := strings.Join(remainingUrls, "\n")
 		os.WriteFile(interruptFile, []byte(data), 0644)
-		fmt.Println("About to exit...")
+		fmt.Println("[WARN] About to exit...")
 	} else {
-		fmt.Println("Download completed.")
+		fmt.Println("[SUCCESS] Download completed.")
 	}
 }
 
@@ -80,7 +81,7 @@ func downloadFile(url, outputDir string) {
 	}
 	resp, err := http.Get(url)
 	if err != nil {
-		fmt.Printf("Error downloading %s: %v\n", url, err)
+		fmt.Printf("[ERROR] Error downloading %s: %v\n", url, err)
 		return
 	}
 	defer resp.Body.Close()

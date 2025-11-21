@@ -32,8 +32,8 @@ func main() {
 	}
 	userName := args[0]
 
-	fmt.Printf("Scraping user: %s\n", userName)
-	fmt.Printf("No video: %v, No image: %v, Limit: %d\n", *noVideo, *noImage, *maxCount)
+	fmt.Printf("[INPUT] Scraping user: %s\n", userName)
+	fmt.Printf("[OPTION] No video: %v, No image: %v, Limit: %d\n", *noVideo, *noImage, *maxCount)
 
 	headers := http.Header{}
 	headers.Set("Cookie", os.Getenv("cookie"))
@@ -51,12 +51,12 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Printf("User ID: %s\n", userId)
+	fmt.Printf("[INFO] User ID: %s\n", userId)
 
 	// Create output directory
 	outputDir := fmt.Sprintf("output/%s", userName)
 	if err := os.MkdirAll(outputDir, os.ModePerm); err != nil {
-		fmt.Printf("Error creating output directory: %v\n", err)
+		fmt.Printf("[ERROR] Error creating output directory: %v\n", err)
 		os.Exit(1)
 	}
 
@@ -66,19 +66,19 @@ func main() {
 	for {
 		result, err := client.GetUserMedia(userId, cursor)
 		if err != nil {
-			fmt.Printf("Error getting user media: %v\n", err)
+			fmt.Printf("\n[ERROR] Error getting user media: %v", err)
 			os.Exit(1)
 		}
 
 		if len(result.Images) == 0 && len(result.Videos) == 0 {
-			fmt.Println("No more media found.")
+			fmt.Print("\n[INFO] No more media found.")
 			break
 		}
 
 		images = append(images, result.Images...)
 		videos = append(videos, result.Videos...)
 
-		fmt.Printf("Fetched %d images and %d videos...\n", len(images), len(videos))
+		fmt.Printf("\r[PROGRESS] %c Fetched %d images and %d videos...", twitter_scraper.GetChar(), len(images), len(videos))
 
 		if result.Cursor == "" {
 			break
@@ -89,8 +89,9 @@ func main() {
 			break
 		}
 	}
+	fmt.Println()
 
-	fmt.Printf("Total images: %d, Total videos: %d\n", len(images), len(videos))
+	fmt.Printf("[INFO] Total images: %d, Total videos: %d\n", len(images), len(videos))
 
 	// Save metadata
 	saveMetadata(outputDir, "all_image.json", images)
@@ -98,12 +99,12 @@ func main() {
 
 	// Download files
 	if !*noImage {
-		fmt.Println("Downloading images...")
+		fmt.Println("[INFO] Downloading images...")
 		twitter_scraper.DownloadAll(images, outputDir)
 	}
 
 	if !*noVideo {
-		fmt.Println("Downloading videos...")
+		fmt.Println("[INFO] Downloading videos...")
 		twitter_scraper.DownloadAll(videos, outputDir)
 	}
 }
