@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/OrkWard/web-scraper/pkg/youtube"
+	"github.com/OrkWard/wormface/pkg/youtube"
 	"github.com/go-redis/redis/v8"
 )
 

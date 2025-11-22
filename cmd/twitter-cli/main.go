@@ -9,8 +9,8 @@ import (
 	"net/http"
 	"os"
 
-	twitter_scraper "github.com/OrkWard/web-scraper/internal/twitter-scraper"
-	"github.com/OrkWard/web-scraper/pkg/twitter"
+	twitter_scraper "github.com/OrkWard/wormface/internal/utils"
+	"github.com/OrkWard/wormface/pkg/twitter"
 	"github.com/joho/godotenv"
 )
 

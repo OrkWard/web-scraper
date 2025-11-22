@@ -1,6 +1,9 @@
-node_modules
 dist
 output
 .DS_Store
-tsconfig.tsbuildinfo
 .env
+
+# bin
+/pixiv-cli
+/twitter-cli
+/server

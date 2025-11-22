@@ -1,4 +1,4 @@
-module github.com/OrkWard/web-scraper
+module github.com/OrkWard/wormface
 
 go 1.25.4
 

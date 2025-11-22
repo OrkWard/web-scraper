@@ -1,4 +1,4 @@
-IMAGE_NAME := ghcr.io/orkward/web-scraper
+IMAGE_NAME := ghcr.io/orkward/wormface
 GIT_TAG := $(shell git describe --tags --always)
 
 .PHONY: all build push

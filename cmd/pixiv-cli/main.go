@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/OrkWard/web-scraper/pkg/pixiv"
+	"github.com/OrkWard/wormface/pkg/pixiv"
 	"github.com/joho/godotenv"
 )
 

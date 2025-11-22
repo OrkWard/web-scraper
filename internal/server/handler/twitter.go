@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/OrkWard/web-scraper/pkg/twitter"
+	"github.com/OrkWard/wormface/pkg/twitter"
 	"github.com/go-redis/redis/v8"
 )
 
